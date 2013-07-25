@@ -1,0 +1,13 @@
+{
+  "require": {
+    "symfony/class-loader": "2.3.*",
+    "phpunit/phpunit": "3.7.*"
+  },
+  "autoload": {
+    "psr-0": {
+      "PokerHand\\": "lib/",
+      "PokerHand\\Collection\\": "lib/PokerHand",
+      "PokerHand\\Feed\\": "lib/PokerHand"
+    }
+  }
+}
