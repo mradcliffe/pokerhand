@@ -14,7 +14,7 @@ use PokerHand\Feed\PokerHandFeedInterface;
  */
 class PokerHandCollection {
 
-  // Raw data from the feed.
+  // Normalized data from the feed.
   public $data;
 
   // An indexed array of zero or more PokerHand objects.
@@ -46,13 +46,18 @@ class PokerHandCollection {
    * @param $hand
    *   PokerHand
    * @param $index
-   *   An optional index. Defaults to the first hand, 0.
+   *   An optional index. Defaults to the first hand, 1.
    * @return this
    *   Return the PokerHandCollection object.
    */
-  public function setHand(PokerHand $hand, $index = 0) {
-    foreach ($this->data[$index]->hand as $n => $card) {
-      $hand->setCard($card->value_abbr . $card->suite_abbr, $card->suite_abbr, $card->value_abbr);
+  public function setHand(PokerHand $hand, $index = 1) {
+    if (isset($this->data[$index])) {
+      foreach ($this->data[$index] as $card_index => $card) {
+        $hand->addCard($card['card'], $card['suit'], $card['value']);
+      }
+    }
+    else {
+      throw new \Exception('There was no hand at this index.');
     }
 
     return $this;

@@ -25,7 +25,11 @@ interface PokerHandFeedInterface {
    * @param $data
    *   The data from the feed.
    * @return array
-   *   An array of hands.
+   *   An indexed array of poker hands where each poker hand is an associative
+   *   array with the following keys:
+   *     - suit: The suit abbrevation.
+   *     - value: The card value i.e. 2, A, K, 10, etc...
+   *     - card: The card and  suit abbreviation i.e. KH, 10S, 5C, AD, etc...
    */
   public function parseData($data);
 
