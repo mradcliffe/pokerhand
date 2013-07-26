@@ -69,5 +69,18 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue($hand->isRoyal() && $hand->isFlush());
   }
 
+  public function testToString() {
+    $hand = new PokerHand();
+    $suits = array('S', 'H', 'D', 'C');
+
+    for ($i = 2; $i < 7; $i++) {
+      // Add a card in sequence of different suits.
+      $suit_index = $i % 4;
+      $hand->addCard($i . $suits[$suit_index], $suits[$suit_index], $i);
+    }
+
+    $this->assertEquals('2♦ 3♣ 4♠ 5♥ 6♦', $hand->__toString(), $hand->__toString());
+  }
+
 }
 

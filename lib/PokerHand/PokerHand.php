@@ -63,6 +63,16 @@ class PokerHand {
   );
 
   /**
+   * HTML entities for suits.
+   */
+  static public $suit_chars = array(
+    'S' => '&spades;',
+    'H' => '&hearts;',
+    'D' => '&diams;',
+    'C' => '&clubs;',
+  );
+
+  /**
    * Add a card to the hand.
    *
    * @param $card
@@ -229,8 +239,8 @@ class PokerHand {
   /**
    * Assign base hand rank.
    *
-   * @return integer
-   *   The rank that was set.
+   * @return this
+   *   Return the current object.
    */
   public function setRank() {
     if (empty($this->cards)) {
@@ -281,7 +291,26 @@ class PokerHand {
       }
     }
 
-    return $this->hand_rank;
+    return $this;
+  }
+
+  /**
+   * Implement magic method to output as a string.
+   */
+  public function __toString() {
+    mb_internal_encoding("UTF-8");
+
+    $output = '';
+    if (empty($this->cards)) {
+      return $output;
+    }
+
+    // Concatenate each card to output as a nicely-formatted string.
+    foreach ($this->cards as $card) {
+      $output .= $card['value'] . self::$suit_chars[$card['suit']] . ' ';
+    }
+
+    return html_entity_decode(trim($output), ENT_COMPAT, 'UTF-8');
   }
 
 }
