@@ -31,7 +31,7 @@ class PokerHand {
    * Human-readable names of hand ranks.
    */
   static public $ranks = array(
-    1 => 'High Card',
+    1 => 'High',
     2 => 'One Pair',
     3 => 'Two Pair',
     4 => 'Three of a Kind',
@@ -124,9 +124,9 @@ class PokerHand {
         $straight_continues = FALSE;
 
         foreach ($result['cards'] as $card_value) {
-          if ($card_value + 1 == $item['value'] || $card_value - 1 == $item['value']) {
+          if (($card_value + 1 == $item['value'] || $card_value - 1 == $item['value']) && !in_array($item['value'], $result['cards'])) {
             // End the loop if the current card is one greater or less than a
-            // card in the straight.
+            // card in the straight, AND there are no sets of any thing.
             $straight_continues = TRUE;
             break;
           }
@@ -148,17 +148,20 @@ class PokerHand {
   }
 
   /**
-   * Check if a hand contains only royalty cards.
+   * Check if a hand contains only royalty cards and no sets of royalty cards.
+   * I don't like the term face card because 10s don't have faces. >:(
    *
    * @return boolean
    *   TRUE if the hand contains royal cards (10, J, Q, K, A).
    */
   public function isRoyal() {
     $royals = array(10, 'J', 'Q', 'K', 'A');
+    $straight = array();
     foreach ($this->cards as $card) {
-      if (!in_array($card['value'], $royals)) {
+      if (!in_array($card['value'], $royals) || in_array($card['value'], $straight)) {
         return FALSE;
       }
+      $straight[] = $card['value'];
     }
 
     return TRUE;
@@ -201,9 +204,10 @@ class PokerHand {
     );
 
     // Count the number of each card value there is.
+    $values = array();
     foreach ($this->cards as $card) {
       if (!isset($values[$card['value']])) {
-        $values[$card['value']] = 1;
+        $values[$card['value']] = 0;
       }
 
       $values[$card['value']]++;
@@ -237,6 +241,96 @@ class PokerHand {
   }
 
   /**
+   * Get the highest value card in a set of cards.
+   *
+   * @param $cards
+   *   An array of card arrays to reduce. This may be the entire hand or it may
+   *   be the highest non-scoring card.
+   * @return array
+   *   The card array for the highest card in a hand.
+   */
+  public function getHighCard(array $cards) {
+    $suit_rank = array_flip(array_keys(self::$suit_chars));
+    $ranks = self::$card_order;
+
+    return array_reduce($cards, function(&$result, $item) use ($suit_rank, $ranks) {
+      if (empty($result)) {
+        // Set result to the first card.
+        $result = $item;
+      }
+      elseif ($ranks[$item['value']] > $ranks[$result['value']]) {
+        $result = $item;
+      }
+      elseif ($ranks[$item['value']] == $ranks[$result['value']] && $suit_rank[$item['suit']] < $suit_rank[$result['suit']]) {
+        // club is a 3 and spades is a 0.
+        $result = $item;
+      }
+
+      return $result;
+    });
+  }
+
+  /**
+   * Reduce the cards array to just the cards that are a part of the ranked
+   * hand, if possible. Otherwise return the entire cards array.
+   *
+   * @return array
+   *   An array of card arrays.
+   */
+  public function getScoringCards() {
+    if (!isset($this->hand_rank) || !isset($this->sets)) {
+      throw new \Exception('Hand must be ranked to use this method.');
+    }
+
+    if (in_array($this->hand_rank, array(1, 5, 6, 7, 9, 10))) {
+      // Return the entire cards array as the entire hand is ranked.
+      return $this->cards;
+    }
+
+    // Go through the sets.
+    if ($this->sets['four']) {
+      $set = array($this->sets['four']);
+    }
+    elseif ($this->sets['three']) {
+      $set = array($this->sets['three']);
+    }
+    else {
+      $set = $this->sets['pair'];
+    }
+    // Reduce the hand into just the scoring cards for a pair, two pair, three
+    // of a kind, or four of a kind.
+    return array_reduce($this->cards, function(&$result, $item) use ($set) {
+      if ($item['value'] == $set[0] || (isset($set[1]) && $item['value'] == $set[1])) {
+        $result[$item['card']] = $item;
+      }
+      return $result;
+    });
+  }
+
+  /**
+   * Compare two card arrays.
+   *
+   * @param $a
+   *   The first card array.
+   * @param $b
+   *   The second card array.
+   * @return boolean
+   *   TRUE if the first card array is weighted higher than the second card array.
+   */
+  static public function compareCards(array $a, array $b) {
+    $suit_rank = array_flip(array_keys(self::$suit_chars));
+
+    // Value is greater or the suit is greater when the value is the same.
+    if (self::$card_order[$a['value']] > self::$card_order[$b['value']] ||
+        (self::$card_order[$a['value']] == self::$card_order[$b['value']] &&
+         $suit_rank[$a['suit']] < $suit_rank[$b['suit']])) {
+      return TRUE;
+    }
+
+    return FALSE;
+  }
+
+  /**
    * Assign base hand rank.
    *
    * @return this
@@ -262,7 +356,7 @@ class PokerHand {
         // Four of a kind.
         $this->hand_rank = 8;
       }
-      elseif ($this->sets['three'] && count($this->sets['two']) > 0) {
+      elseif ($this->sets['three'] && count($this->sets['pair']) > 0) {
         // Full House.
         $this->hand_rank = 7;
       }

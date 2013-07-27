@@ -23,12 +23,12 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
       $hand->addCard($values[$i] . 'C', 'C', $values[$i]);
     }
 
-    $this->assertTrue($hand->isFlush());
+    $this->assertTrue($hand->isFlush(), $hand->__toString());
 
     // Set a card to not a club.
     $hand->cards['2C']['suit'] = 'H';
 
-    $this->assertFalse($hand->isFlush());
+    $this->assertFalse($hand->isFlush(), $hand->__toString());
   }
 
   public function testStraight() {
@@ -41,12 +41,12 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
       $hand->addCard($i . $suits[$suit_index], $suits[$suit_index], $i);
     }
 
-    $this->assertTrue($hand->isStraight());
+    $this->assertTrue($hand->isStraight(), $hand->__toString());
 
     // Set a card to something out of order.
     $hand->cards['2H']['value'] = 10;
 
-    $this->assertFalse($hand->isStraight());
+    $this->assertFalse($hand->isStraight(), $hand->__toString());
   }
 
   public function testStraightFlush() {
@@ -56,7 +56,7 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
       $hand->addCard($i . 'C', 'C', $i);
     }
 
-    $this->assertTrue($hand->isFlush() && $hand->isStraight());
+    $this->assertTrue($hand->isFlush() && $hand->isStraight(), $hand->__toString());
   }
 
   public function testRoyalFlush() {
@@ -66,7 +66,197 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
     for ($i = 10; $i < 15; $i++) {
       $hand->addCard($royals[$i] . 'H', 'H', $royals[$i]);
     }
-    $this->assertTrue($hand->isRoyal() && $hand->isFlush());
+    $this->assertTrue($hand->isRoyal() && $hand->isFlush(), $hand->__toString());
+  }
+
+  public function testFullHouse() {
+    $hand = new PokerHand();
+    $hand
+      ->addCard('5S', 'S', 5)
+      ->addCard('10D', 'D', 10)
+      ->addCard('5H', 'H', 5)
+      ->addCard('10H', 'H', 10)
+      ->addCard('10C', 'C', 10)
+      ->setSets()
+      ->setRank();
+
+    $this->assertEquals(7, $hand->hand_rank, $hand->__toString());
+    $this->assertCount(1, $hand->sets['pair']);
+    $this->assertEquals(10, $hand->sets['three']);
+  }
+
+  public function testSets() {
+    // Pair of 5s.
+    $hand = new PokerHand();
+    $hand
+      ->addCard('5S', 'S', 5)
+      ->addCard('10D', 'D', 10)
+      ->addCard('5H', 'H', 5)
+      ->addCard('QC', 'C', 'Q')
+      ->addCard('KH', 'H', 'K')
+      ->setSets()
+      ->setRank();
+
+    $hand_output = $hand->__toString();
+
+    $this->assertEquals(2, $hand->hand_rank, $hand_output);
+    $this->assertCount(1, $hand->sets['pair'], $hand_output);
+    $this->assertEquals(5, $hand->sets['pair'][0], $hand_output);
+
+    // 2 Pair, 5s and 10s.
+    $hand = new PokerHand();
+    $hand
+      ->addCard('5S', 'S', 5)
+      ->addCard('10D', 'D', 10)
+      ->addCard('5H', 'H', 5)
+      ->addCard('QC', 'C', 'Q')
+      ->addCard('10H', 'H', 10)
+      ->setSets()
+      ->setRank();
+
+    $hand_output = $hand->__toString();
+
+    $this->assertEquals(3, $hand->hand_rank, $hand_output);
+    $this->assertCount(2, $hand->sets['pair'], $hand_output);
+
+    // 3 of a Kind
+    $hand = new PokerHand();
+    $hand
+      ->addCard('5S', 'S', 5)
+      ->addCard('5D', 'D', 5)
+      ->addCard('5H', 'H', 5)
+      ->addCard('QC', 'C', 'Q')
+      ->addCard('10H', 'H', 10)
+      ->setSets()
+      ->setRank();
+
+    $hand_output = $hand->__toString();
+
+    $this->assertEquals(4, $hand->hand_rank, $hand_output);
+    $this->assertCount(0, $hand->sets['pair'], $hand_output);
+    $this->assertEquals(5, $hand->sets['three'], $hand_output);
+    $this->assertEquals(0, $hand->sets['four'], $hand_output);
+
+    // 4 of a Kind
+    $hand = new PokerHand();
+    $hand
+      ->addCard('5S', 'S', 5)
+      ->addCard('5D', 'D', 5)
+      ->addCard('5H', 'H', 5)
+      ->addCard('QC', 'C', 'Q')
+      ->addCard('5C', 'C', 5)
+      ->setSets()
+      ->setRank();
+
+    $this->assertEquals(8, $hand->hand_rank, $hand_output);
+    $this->assertCount(0, $hand->sets['pair'], $hand_output);
+    $this->assertEquals(0, $hand->sets['three'], $hand_output);
+    $this->assertEquals(5, $hand->sets['four']);
+  }
+
+  public function testHighCard() {
+    $hand = new PokerHand();
+    $suits = array('S', 'H', 'D', 'C');
+
+    $hand
+      ->addCard('5H', 'H', 5)
+      ->addCard('QS', 'S', 'Q')
+      ->addCard('9C', 'C', 9)
+      ->addCard('AS', 'S', 'A')
+      ->addCard('AC', 'S', 'A');
+    $high_card = $hand->getHighCard($hand->cards);
+
+    $this->assertEquals($high_card['card'], 'AS', $hand->__toString());
+
+    // Test a particular set of hands that failed code once.
+    $a = new PokerHand();
+    $a
+      ->addCard('QD', 'H', 'Q')
+      ->addCard('8C', 'C', 8)
+      ->addCard('6S', 'S', 6)
+      ->addCard('4D', 'D', 4)
+      ->addCard('3D', 'D', 3)
+      ->setSets()
+      ->setRank();
+    $a_card = $a->getHighCard($a->cards);
+    $this->assertEquals('QD', $a_card['card']);
+
+    $b = new PokerHand();
+    $b
+      ->addCard('6H', 'H', 6)
+      ->addCard('QC', 'C', 'Q')
+      ->addCard('KC', 'C', 'K')
+      ->addCard('9S', 'S', 9)
+      ->addCard('2C', 'C', 2)
+      ->setSets()
+      ->setRank();
+    $b_card = $b->getHighCard($b->cards);
+    $this->assertEquals('KC', $b_card['card']);
+
+    $this->assertFalse($a::compareCards($a_card, $b_card), $a->__toString() . '<' . $b->__toString());
+
+    // Test a particular set of hands that failed code regularly.
+    // KD 3H 2H 7S KC
+    // 9D JS JC 6H 5S
+    $one = new PokerHand();
+    $one
+      ->addCard('KD', 'D', 'K')
+      ->addCard('3H', 'H', 3)
+      ->addCard('2H', 'H', 2)
+      ->addCard('7S', 'S', 7)
+      ->addCard('KC', 'C', 'K')
+      ->setSets()
+      ->setRank();
+    $two = new PokerHand();
+    $two
+      ->addCard('9D', 'D', 9)
+      ->addCard('JS', 'S', 'J')
+      ->addCard('JC', 'C', 'J')
+      ->addCard('6H', 'H', 6)
+      ->addCard('5S', 'S', 5)
+      ->setSets()
+      ->setRank();
+
+    $one_kickers = array_diff_key($one->cards, $one->getScoringCards());
+    $one_high = $one->getHighCard($one_kickers);
+    $this->assertEquals('7S', $one_high['card'], $one->__toString());
+
+    $two_kickers = array_diff_key($two->cards, $two->getScoringCards());
+    $two_high = $two->getHighCard($two_kickers);
+    $this->assertEquals('9D', $two_high['card'], $two->__toString());
+  }
+
+  public function testHighScoreCard() {
+    $hand = new PokerHand();
+    $suits = array('S', 'H', 'D', 'C');
+
+    $hand
+      ->addCard('5H', 'H', 5)
+      ->addCard('10S', 'S', 10)
+      ->addCard('9C', 'C', 9)
+      ->addCard('10D', 'D', 10)
+      ->addCard('9S', 'S', 9)
+      ->setSets()
+      ->setRank();
+
+    $high_card = $hand->getHighCard($hand->getScoringCards());
+
+    $this->assertEquals($high_card['card'], '10S', $hand->__toString());
+  }
+
+  public function testCardCompare() {
+    $a = array(
+      'value' => 'A',
+      'suit' => 'S',
+      'card' => 'AS',
+    );
+    $b = array(
+      'value' => 'A',
+      'suit' => 'H',
+      'card' => 'AH',
+    );
+
+    $this->assertTrue(PokerHand::compareCards($a, $b));
   }
 
   public function testToString() {
