@@ -22,15 +22,29 @@ foreach ($game->hands as $name => $hand) {
 // how to format things nicely.
 ```
 
+## Interfaces
+
 ### PokerHandCollection
 
 - PokerHand\Collection\PokerHandCollection
   - The main class for this library. Instantiate a PokerHandCollection with a PokerHandFeedInterface.
+  - PokerHandCollection::hands
+     - An associative array of PokerHand objects keyed by the hand name i.e. Player 1, Player 2.
+  - PokerHandCollection::data
+     - An associative array of normalized hand data from the feed keyed by the hand name, and contains an array of card data.
+        - A card array is an associative array similar to the array in PokerHand::hand. If a feed provides 10 as "T", then this will be converted back to 10.
 
 ### PokerHand
 
 - PokerHand\PokerHand
    - Methods for interacting with a Poker hand to identify the bask rank 1-10 of a hand.
+   - PokerHand::hand
+      - An associative array of card arrays of the following format keyed by the card code.
+         - **card**: The card code - the card value concatenated by the suit value.
+         - **value**: The card value: A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, or K.
+         - **suit**: The suit value: S, H, D, C
+   - PokerHand::hand_rank
+     - The base rank of the hand from 1 to 10 where 1 is high card and 10 is a royal straight flush.
 
 ```php
 // Format a poker hand as a UTF-8 string.
@@ -67,6 +81,4 @@ print $hand::ranks[$hand->hand_rank];
   for ($i = 0; $i < 25; $i++) {
     $game->dealCard();
   }
-
 ```
-
