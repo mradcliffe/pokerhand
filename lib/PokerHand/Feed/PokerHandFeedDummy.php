@@ -31,11 +31,15 @@ class PokerHandFeedDummy implements PokerHandFeedInterface {
       $info = json_decode($data);
 
       foreach ($info as $index => $hand) {
-        $normalized[$hand->name] = array(
-          'suit' => $hand->hand->suite_abbr,
-          'card' => $hand->hand->card,
-          'value' => $hand->hand->value_abbr,
-        );
+        $normalized[$hand->name] = array();
+
+        foreach ($hand->hand as $card_index => $card) {
+          $normalized[$hand->name][$card_index] = array(
+            'suit' => $card->suite_abbr,
+            'card' => str_replace('T', 10, $card->card),
+            'value' => ($card->value_abbr == 'T') ? 10 : $card->value_abbr,
+          );
+        }
       }
     }
     catch (Exception $e) {

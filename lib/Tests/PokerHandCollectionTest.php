@@ -60,11 +60,11 @@ class PokerHandCollectionTest extends PHPUnit_Framework_TestCase {
 
     // Get the high cards from the kicker possibilities.
     $a_high = $a->getHighCard($a_kickers);
-    $this->assertEquals('9D', $a_high['card']);
+    $this->assertEquals('9D', $a_high->card);
     $b_high = $b->getHighCard($b_kickers);
-    $this->assertEquals('10D', $b_high['card']);
+    $this->assertEquals('10D', $b_high->card);
 
-    $this->assertFalse($a::compareCards($a_high, $b_high), $a_high['card'] . ' < ' . $b_high['card']);
+    $this->assertFalse($a_high::compare($a_high, $b_high), $a_high->card . ' < ' . $b_high->card);
   }
 
   public function testHandCompare() {
@@ -79,7 +79,7 @@ class PokerHandCollectionTest extends PHPUnit_Framework_TestCase {
       ->setSets()
       ->setRank();
     $a_card = $a->getHighCard($a->cards);
-    $this->assertEquals('QD', $a_card['card']);
+    $this->assertEquals('QD', $a_card->card);
 
     $b = new PokerHand();
     $b  
@@ -91,7 +91,7 @@ class PokerHandCollectionTest extends PHPUnit_Framework_TestCase {
       ->setSets()
       ->setRank();
     $b_card = $b->getHighCard($b->cards);
-    $this->assertEquals('KC', $b_card['card']);
+    $this->assertEquals('KC', $b_card->card);
 
     $this->assertEquals(1, PokerHandCollection::compareHands($a, $b)); 
   }

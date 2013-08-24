@@ -5,6 +5,7 @@
   },
   "autoload": {
     "psr-0": {
+      "PlayingCard\\": "lib/",
       "PokerHand\\": "lib/",
       "PokerHand\\Collection\\": "lib/PokerHand",
       "PokerHand\\Feed\\": "lib/PokerHand"

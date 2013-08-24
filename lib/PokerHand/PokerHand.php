@@ -6,10 +6,12 @@
 
 namespace PokerHand;
 
+use PlayingCard\PlayingCard;
+
 class PokerHand {
 
   /**
-   * An indexed array of assocative array of card information.
+   * An indexed array of zero to five PlayingCard objects.
    */
   public $cards;
 
@@ -89,13 +91,13 @@ class PokerHand {
       throw new Exception('Cannot add another card to the hand.');
     }
 
-    // Set properties on the card.
-    $this->cards[$card] = array(
-      'card' => $card,
-      'suit' => $suit,
-      'value' => $value,
-      'rank' => -1,
-    );
+    try {
+      // Add a new card object.
+      $this->cards[$card] = PlayingCard::createFromString($card);
+    }
+    catch (\Exception $e) {
+      throw $e;
+    }
 
     return $this;
   }
@@ -116,7 +118,7 @@ class PokerHand {
 
     $straight = array_reduce($this->cards, function(&$result, $item) use ($card_order) {
       if (empty($result['cards'])) {
-        $result['cards'][] = $item['value'];
+        $result['cards'][] = $item->value;
         $result['straight'] = TRUE;
       }
       elseif ($result['straight']) {
@@ -124,7 +126,7 @@ class PokerHand {
         $straight_continues = FALSE;
 
         foreach ($result['cards'] as $card_value) {
-          if (($card_value + 1 == $item['value'] || $card_value - 1 == $item['value']) && !in_array($item['value'], $result['cards'])) {
+          if (($card_value + 1 == $item->value || $card_value - 1 == $item->value) && !in_array($item->value, $result['cards'])) {
             // End the loop if the current card is one greater or less than a
             // card in the straight, AND there are no sets of any thing.
             $straight_continues = TRUE;
@@ -133,7 +135,7 @@ class PokerHand {
         }
 
         if ($straight_continues) {
-          $result['cards'][] = $item['value'];
+          $result['cards'][] = $item->value;
           $result['straight'] = TRUE;
         }
         else {
@@ -158,10 +160,10 @@ class PokerHand {
     $royals = array(10, 'J', 'Q', 'K', 'A');
     $straight = array();
     foreach ($this->cards as $card) {
-      if (!in_array($card['value'], $royals) || in_array($card['value'], $straight)) {
+      if (!in_array($card->value, $royals) || in_array($card->value, $straight)) {
         return FALSE;
       }
-      $straight[] = $card['value'];
+      $straight[] = $card->value;
     }
 
     return TRUE;
@@ -176,13 +178,13 @@ class PokerHand {
   public function isFlush() {
     $flush = array_reduce($this->cards, function(&$result, $item) {
       if (empty($result['suit'])) {
-        $result['suit'] = $item['suit'];
+        $result['suit'] = $item->suit;
         $result['count'] = 1;
       }
-      elseif (in_array($item['suit'], $result)) {
+      elseif (in_array($item->suit, $result)) {
         $result['count']++;
       }
-      
+
       return $result;
     });
 
@@ -206,11 +208,11 @@ class PokerHand {
     // Count the number of each card value there is.
     $values = array();
     foreach ($this->cards as $card) {
-      if (!isset($values[$card['value']])) {
-        $values[$card['value']] = 0;
+      if (!isset($values[$card->value])) {
+        $values[$card->value] = 0;
       }
 
-      $values[$card['value']]++;
+      $values[$card->value]++;
     }
 
     // Sort the values into pairs, 3 of a kind, and 4 of a kind given that
@@ -246,8 +248,8 @@ class PokerHand {
    * @param $cards
    *   An array of card arrays to reduce. This may be the entire hand or it may
    *   be the highest non-scoring card.
-   * @return array
-   *   The card array for the highest card in a hand.
+   * @return PlayingCard
+   *   The PlayingCard object with the highest card value in the set of cards.
    */
   public function getHighCard(array $cards) {
     $suit_rank = array_flip(array_keys(self::$suit_chars));
@@ -258,10 +260,10 @@ class PokerHand {
         // Set result to the first card.
         $result = $item;
       }
-      elseif ($ranks[$item['value']] > $ranks[$result['value']]) {
+      elseif ($ranks[$item->value] > $ranks[$result->value]) {
         $result = $item;
       }
-      elseif ($ranks[$item['value']] == $ranks[$result['value']] && $suit_rank[$item['suit']] < $suit_rank[$result['suit']]) {
+      elseif ($ranks[$item->value] == $ranks[$result->value] && $suit_rank[$item->suit] < $suit_rank[$result->suit]) {
         // club is a 3 and spades is a 0.
         $result = $item;
       }
@@ -300,34 +302,11 @@ class PokerHand {
     // Reduce the hand into just the scoring cards for a pair, two pair, three
     // of a kind, or four of a kind.
     return array_reduce($this->cards, function(&$result, $item) use ($set) {
-      if ($item['value'] == $set[0] || (isset($set[1]) && $item['value'] == $set[1])) {
-        $result[$item['card']] = $item;
+      if ($item->value == $set[0] || (isset($set[1]) && $item->value == $set[1])) {
+        $result[$item->card] = $item;
       }
       return $result;
     });
-  }
-
-  /**
-   * Compare two card arrays.
-   *
-   * @param $a
-   *   The first card array.
-   * @param $b
-   *   The second card array.
-   * @return boolean
-   *   TRUE if the first card array is weighted higher than the second card array.
-   */
-  static public function compareCards(array $a, array $b) {
-    $suit_rank = array_flip(array_keys(self::$suit_chars));
-
-    // Value is greater or the suit is greater when the value is the same.
-    if (self::$card_order[$a['value']] > self::$card_order[$b['value']] ||
-        (self::$card_order[$a['value']] == self::$card_order[$b['value']] &&
-         $suit_rank[$a['suit']] < $suit_rank[$b['suit']])) {
-      return TRUE;
-    }
-
-    return FALSE;
   }
 
   /**
@@ -401,10 +380,10 @@ class PokerHand {
 
     // Concatenate each card to output as a nicely-formatted string.
     foreach ($this->cards as $card) {
-      $output .= $card['value'] . self::$suit_chars[$card['suit']] . ' ';
+      $output .= $card->__toString() . ' ';
     }
 
-    return html_entity_decode(trim($output), ENT_COMPAT, 'UTF-8');
+    return trim($output);
   }
 
 }

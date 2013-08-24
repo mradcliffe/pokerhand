@@ -22,7 +22,7 @@ foreach ($game->hands as $name => $hand) {
 // how to format things nicely.
 ```
 
-## Interfaces
+## Interfaces / Classes
 
 ### PokerHandCollection
 
@@ -39,10 +39,7 @@ foreach ($game->hands as $name => $hand) {
 - PokerHand\PokerHand
    - Methods for interacting with a Poker hand to identify the bask rank 1-10 of a hand.
    - PokerHand::hand
-      - An associative array of card arrays of the following format keyed by the card code.
-         - **card**: The card code - the card value concatenated by the suit value.
-         - **value**: The card value: A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, or K.
-         - **suit**: The suit value: S, H, D, C
+      - An associative array of PlayingCard objects.
    - PokerHand::hand_rank
      - The base rank of the hand from 1 to 10 where 1 is high card and 10 is a royal straight flush.
 
@@ -53,6 +50,20 @@ print $hand->__toString();
 // Format the hand rank for a given hand of cards.
 $hand->setSets()->setRank();
 print $hand::ranks[$hand->hand_rank];
+```
+
+### PlayingCard
+
+- PlayingCard\PlayingCard
+  - A low-level class for representing a playing card. New.
+  - PlayingCard::value
+  - PlayingCard::card
+  - PlayingCard::suit
+
+```php
+// Create a playing card from a string value.
+$ace_of_spades = PlayingCard::createFromString('AS');
+echo $ace_of_spades->__toString();
 ```
 
 ### PokerHandFeedInterface
@@ -69,6 +80,7 @@ print $hand::ranks[$hand->hand_rank];
 ## PokerHandGeneratorInterface
 
 - PokerHand\Feed\PokerHandFeedGenerator
+   - @todo use PlayingCard\PlayingCard in the generator.
 
 ```php
   // This static method will generate the deck, shuffle, and add the players.

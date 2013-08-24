@@ -31,7 +31,7 @@ class PokerHandCollection {
 
     foreach (array_keys($this->data) as $hand_index) {
       $this->setHand(new PokerHand, $hand_index);
-    }  
+    }
   }
 
   /**
@@ -103,7 +103,7 @@ class PokerHandCollection {
     return $this;
   }
 
-  /** 
+  /**
    * Sort the hands array
    */
   public function sortHands() {
@@ -137,16 +137,16 @@ class PokerHandCollection {
     }
 
     $a_cards = $a->getScoringCards();
+    $a_high_card = $a->getHighCard($a_cards);
 
-    if (count($a_cards) == 5 && $a::compareCards($a->getHighCard($a->cards), $b->getHighCard($b->cards))) {
+    if (count($a_cards) == 5 && $a_high_card::compare($a->getHighCard($a_cards), $b->getHighCard($b->cards))) {
       // Compare the highest card from each full hand.
       return -1;
     }
     elseif (count($a_cards) < 5) {
-
       $b_cards = $b->getScoringCards();
 
-      if ($a::compareCards($a->getHighCard($a_cards), $b->getHighCard($b_cards))) {
+      if ($a_high_card::compare($a->getHighCard($a_cards), $b->getHighCard($b_cards))) {
         // Compare the highest card from the scoring cards in the hand.
         return -1;
       }
@@ -163,7 +163,7 @@ class PokerHandCollection {
         throw new \Exception('A: ' . $a->__toString() . "\nB: " . $b->__toString() . "\n");
       }
 
-      if ($a::compareCards($a->getHighCard($a_kickers), $b->getHighCard($b_kickers))) {
+      if ($a_high_card::compare($a->getHighCard($a_kickers), $b->getHighCard($b_kickers))) {
         return -1;
       }
     }

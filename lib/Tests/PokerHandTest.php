@@ -4,7 +4,7 @@
  * PokerHandTest.php
  */
 
-
+use PlayingCard\PlayingCard;
 use PokerHand\PokerHand;
 
 /**
@@ -26,7 +26,7 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue($hand->isFlush(), $hand->__toString());
 
     // Set a card to not a club.
-    $hand->cards['2C']['suit'] = 'H';
+    $hand->cards['2C']->suit = 'H';
 
     $this->assertFalse($hand->isFlush(), $hand->__toString());
   }
@@ -43,8 +43,15 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
 
     $this->assertTrue($hand->isStraight(), $hand->__toString());
 
-    // Set a card to something out of order.
-    $hand->cards['2H']['value'] = 10;
+    // Generate a new hand with 4 cards in a straight.
+    $hand = new PokerHand();
+    for ($i = 2; $i < 6; $i++) {
+      $suit_index = $i % 4;
+      $hand->addCard($i . $suits[$suit_index], $suits[$suit_index], $i);
+    }
+
+    // Set one card out of order.
+    $hand->addCard('10H', 'H', 10);
 
     $this->assertFalse($hand->isStraight(), $hand->__toString());
   }
@@ -166,7 +173,7 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
       ->addCard('AC', 'S', 'A');
     $high_card = $hand->getHighCard($hand->cards);
 
-    $this->assertEquals($high_card['card'], 'AS', $hand->__toString());
+    $this->assertEquals($high_card->card, 'AS', $hand->__toString());
 
     // Test a particular set of hands that failed code once.
     $a = new PokerHand();
@@ -179,7 +186,7 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
       ->setSets()
       ->setRank();
     $a_card = $a->getHighCard($a->cards);
-    $this->assertEquals('QD', $a_card['card']);
+    $this->assertEquals('QD', $a_card->card);
 
     $b = new PokerHand();
     $b
@@ -191,9 +198,9 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
       ->setSets()
       ->setRank();
     $b_card = $b->getHighCard($b->cards);
-    $this->assertEquals('KC', $b_card['card']);
+    $this->assertEquals('KC', $b_card->card);
 
-    $this->assertFalse($a::compareCards($a_card, $b_card), $a->__toString() . '<' . $b->__toString());
+    $this->assertFalse(PlayingCard::compare($a_card, $b_card), $a->__toString() . '<' . $b->__toString());
 
     // Test a particular set of hands that failed code regularly.
     // KD 3H 2H 7S KC
@@ -219,11 +226,11 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
 
     $one_kickers = array_diff_key($one->cards, $one->getScoringCards());
     $one_high = $one->getHighCard($one_kickers);
-    $this->assertEquals('7S', $one_high['card'], $one->__toString());
+    $this->assertEquals('7S', $one_high->card, $one->__toString());
 
     $two_kickers = array_diff_key($two->cards, $two->getScoringCards());
     $two_high = $two->getHighCard($two_kickers);
-    $this->assertEquals('9D', $two_high['card'], $two->__toString());
+    $this->assertEquals('9D', $two_high->card, $two->__toString());
   }
 
   public function testHighScoreCard() {
@@ -241,22 +248,7 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
 
     $high_card = $hand->getHighCard($hand->getScoringCards());
 
-    $this->assertEquals($high_card['card'], '10S', $hand->__toString());
-  }
-
-  public function testCardCompare() {
-    $a = array(
-      'value' => 'A',
-      'suit' => 'S',
-      'card' => 'AS',
-    );
-    $b = array(
-      'value' => 'A',
-      'suit' => 'H',
-      'card' => 'AH',
-    );
-
-    $this->assertTrue(PokerHand::compareCards($a, $b));
+    $this->assertEquals($high_card->card, '10S', $hand->__toString());
   }
 
   public function testToString() {
