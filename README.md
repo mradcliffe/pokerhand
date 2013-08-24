@@ -2,6 +2,10 @@
 
 This is class to interface with http://poker.phpcolumbus.org/hand as part of the PHP Columbus Meetup Code Jam.
 
+## Challenge
+
+`php run.php`
+
 ## API
 
 ```php
