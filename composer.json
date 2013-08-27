@@ -1,6 +1,9 @@
 {
   "require": {
-    "symfony/class-loader": "2.3.*",
+    "symfony/class-loader": "2.3.*"
+  },
+  "require-dev": {
+    "phpdocumentor/phpdocumentor": "2.0.*",
     "phpunit/phpunit": "3.7.*"
   },
   "autoload": {
