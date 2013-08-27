@@ -1,6 +1,7 @@
 # PokerHand
 
-This is class to interface with http://poker.phpcolumbus.org/hand as part of the PHP Columbus Meetup Code Jam.
+This is a suite of classes to interface with http://poker.phpcolumbus.org/hand
+as part of the PHP Columbus Meetup Code Jam.
 
 ## Challenge
 
@@ -97,4 +98,26 @@ echo $ace_of_spades->__toString();
   for ($i = 0; $i < 25; $i++) {
     $game->dealCard();
   }
+```
+
+## Notes
+
+### Poker Hands
+
+1. High Card
+2. One Pair
+3. Two Pair
+4. Three of a Kind
+5. Straight
+6. Flush
+7. Full House
+8. Four of a Kind
+9. Straight Flush
+10. Royal Flush
+
+### Example JSON from Feed
+
+```json
+[{"name":1,"hand":[{"card":"8C","suite":"Clubs","suite_abbr":"C","value":"Eight","value_abbr":8},{"card":"KS","suite":"Spades","suite_abbr":"S","value":"King","value_abbr":"K"},{"card":"QD","suite":"Diamonds","suite_abbr":"D","value":"Queen","value_abbr":"Q"},{"card":"JS","suite":"Spades","suite_abbr":"S","value":"Jack","value_abbr":"J"},{"card":"2S","suite":"Spades","suite_abbr":"S","value":"Two","value_abbr":2}]},{"name":2,"hand":[{"card":"3S","suite":"Spades","suite_abbr":"S","value":"Three","value_abbr":3},{"card":"4H","suite":"Hearts","suite_abbr":"H","value":"Four","value_abbr":4},{"card":"AS","suite":"Spades","suite_abbr":"S","value":"Ace","value_abbr":"A"},{"card":"4C","suite":"Clubs","suite_abbr":"C","value":"Four","value_abbr":4},{"card":"3H","suite":"Hearts","suite_abbr":"H","value":"Three","value_abbr":3}]}]
+
 ```
