@@ -44,9 +44,10 @@ class PokerHandCollectionTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
-   * Test sort hands.
+   * Test sort hands. There is a bug in sortHands that this test is not
+   * covering.
    */
-  public function testSortHands() {
+  public function testSortSimpleHands() {
     $hands = new PokerHandCollection(array());
 
     $a = new PokerHand;
@@ -91,6 +92,99 @@ class PokerHandCollectionTest extends PHPUnit_Framework_TestCase {
 
     // Player 3 wins and is sorted first.
     $this->assertEquals('Player 3', key($hands->hands));
+  }
+
+  /**
+   * Test sortHands with greater than 2 cards.
+   */
+  public function testSortComplexHands() {
+    $hands = new PokerHandCollection(array());
+
+    // Player 1 has High Card, 10,
+    $a = new PokerHand;
+    $a
+      ->addCard('10S', 'S', 10)
+      ->addCard('5D', 'D', 5)
+      ->addCard('2S', 'S', 2)
+      ->addCard('AD', 'D', 'A')
+      ->addCard('JD', 'D', 'J');
+    $hands->hands['a'] = $a;
+
+    // Player 2 has One Pair, K K.
+    $b = new PokerHand;
+    $b
+      ->addCard('3D', 'D', 3)
+      ->addCard('KC', 'C', 'K')
+      ->addCard('9S', 'S', 9)
+      ->addCard('KH', 'H', 'K')
+      ->addCard('JH', 'H', 'J');
+    $hands->hands['b'] = $b;
+
+    // Player 3 has One Pair, 8 8,
+    $c = new PokerHand;
+    $c
+      ->addCard('8D', 'D', 8)
+      ->addCard('KS', 'S', 'K')
+      ->addCard('10C', 'C', 10)
+      ->addCard('8H', 'H', 8)
+      ->addCard('JC', 'C', 'J');
+    $hands->hands['c'] = $c;
+
+    // Player 4 has One Pair, 10 10,
+    $d = new PokerHand;
+    $d
+      ->addCard('10H', 'H', 10)
+      ->addCard('5H', 'H', 5)
+      ->addCard('10D', 'D', 10)
+      ->addCard('AS', 'S', 'A')
+      ->addCard('9C', 'C', 9);
+    $hands->hands['d'] = $d;
+
+    // Player 5 has High Card, 7
+    $e = new PokerHand;
+    $e
+      ->addCard('7C', 'C', 7)
+      ->addCard('5C', 'C', 5)
+      ->addCard('3H', 'H', 3)
+      ->addCard('2D', 'D', 2)
+      ->addCard('4D', 'D', 4);
+    $hands->hands['e'] = $e;
+
+    // Player 6 has High Card, K
+    $f = new PokerHand;
+    $f
+      ->addCard('KH', 'H', 'K')
+      ->addCard('QH', 'H', 'S')
+      ->addCard('4C', 'C', 4)
+      ->addCard('7D', 'D', 7)
+      ->addCard('9D', 'D', 9);
+    $hands->hands['f'] = $f;
+
+    $hands->rankHands()->sortHands();
+
+    // B wins.
+    $first = array_shift($hands->hands);
+    $this->assertEquals($b->__toString(), $first->__toString(), 'B wins');
+
+    // D.
+    $second = array_shift($hands->hands);
+    $this->assertEquals($d->__toString(), $second->__toString(), 'D second');
+
+    // C.
+    $third = array_shift($hands->hands);
+    $this->assertEquals($c->__toString(), $third->__toString(), 'C third');
+
+    // F
+    $fourth = array_shift($hands->hands);
+    $this->assertEquals($f->__toString(), $fourth->__toString(), 'F fourth');
+
+    // A
+    $fifth = array_shift($hands->hands);
+    $this->assertEquals($a->__toString(), $fifth->__toString(), 'A fifth');
+
+    // E
+    $sixth = array_shift($hands->hands);
+    $this->assertEquals($e->__toString(), $sixth->__toString(), 'E sixth');
   }
 
   /**

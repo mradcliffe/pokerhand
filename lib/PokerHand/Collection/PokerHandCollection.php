@@ -108,6 +108,7 @@ class PokerHandCollection {
    */
   public function sortHands() {
     try {
+      // @todo this is not working for > 2 hands!
       uasort($this->hands, array($this, 'compareHands'));
     }
     catch (Exception $e) {
