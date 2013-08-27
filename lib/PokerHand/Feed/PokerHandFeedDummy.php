@@ -25,7 +25,7 @@ class PokerHandFeedDummy implements PokerHandFeedInterface {
 
   public function parseData($data) {
     $info = array();
-    $normalized = array(); 
+    $normalized = array();
 
     try {
       $info = json_decode($data);

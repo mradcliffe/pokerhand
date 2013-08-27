@@ -70,7 +70,7 @@ class PokerHandCollectionTest extends PHPUnit_Framework_TestCase {
   public function testHandCompare() {
     // Test a particular set of hands that failed code once.
     $a = new PokerHand();
-    $a  
+    $a
       ->addCard('QD', 'H', 'Q')
       ->addCard('8C', 'C', 8)
       ->addCard('6S', 'S', 6)
@@ -82,7 +82,7 @@ class PokerHandCollectionTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('QD', $a_card->card);
 
     $b = new PokerHand();
-    $b  
+    $b
       ->addCard('6H', 'H', 6)
       ->addCard('QC', 'C', 'Q')
       ->addCard('KC', 'C', 'K')
@@ -93,7 +93,7 @@ class PokerHandCollectionTest extends PHPUnit_Framework_TestCase {
     $b_card = $b->getHighCard($b->cards);
     $this->assertEquals('KC', $b_card->card);
 
-    $this->assertEquals(1, PokerHandCollection::compareHands($a, $b)); 
+    $this->assertEquals(1, PokerHandCollection::compareHands($a, $b));
   }
 
 }

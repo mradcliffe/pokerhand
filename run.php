@@ -23,7 +23,7 @@ foreach ($hands->hands as $player => $hand) {
   if ($winner) {
     print 'Winner: ' . $player . "\n\n";
   }
-  
+
   print "\t$player: " . $hand->__toString() . "\t(" . $hand::$ranks[$hand->hand_rank] . ")\n";
   $winner = FALSE;
 }

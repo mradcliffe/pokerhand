@@ -50,11 +50,11 @@ class PokerHandFeedColumbusPHP implements PokerHandFeedInterface {
 
   public function parseData($data) {
     $info = array();
-    $normalized = array(); 
+    $normalized = array();
 
     try {
       $info = json_decode($data);
-      
+
       // Normalize the hand object into an array.
       foreach ($info as $index => $hand) {
         $normalized[$hand->name] = array();

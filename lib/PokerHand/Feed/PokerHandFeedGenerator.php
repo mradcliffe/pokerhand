@@ -40,7 +40,7 @@ class PokerHandFeedGenerator implements PokerHandFeedInterface, PokerHandGenerat
     11 => 'J',
     12 => 'Q',
     13 => 'K',
-  );  
+  );
 
 
   function __construct() {
@@ -142,7 +142,7 @@ class PokerHandFeedGenerator implements PokerHandFeedInterface, PokerHandGenerat
 
     return $this;
   }
- 
+
   public function countPlayers() {
     return count($this->players);
   }
