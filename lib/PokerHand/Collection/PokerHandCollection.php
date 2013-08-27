@@ -4,7 +4,7 @@
  * PokerHandCollection.php
  */
 
-namespace Pokerhand\Collection;
+namespace PokerHand\Collection;
 
 use PokerHand\PokerHand;
 use PokerHand\Feed\PokerHandFeedInterface;
