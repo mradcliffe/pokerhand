@@ -87,7 +87,7 @@ class PokerHand {
    *   The object for chaining.
    */
   public function addCard($card, $suit, $value) {
-    if (count($cards) == 5) {
+    if (count($this->cards) == 5) {
       throw new Exception('Cannot add another card to the hand.');
     }
 

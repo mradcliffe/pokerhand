@@ -131,7 +131,7 @@ class PokerHandFeedGenerator implements PokerHandFeedInterface, PokerHandGenerat
   }
 
   public function addHand($name) {
-    if (count($players) > 14) {
+    if (count($this->players) > 14) {
       throw new \Exception('Cannot add any more hands.');
     }
 
