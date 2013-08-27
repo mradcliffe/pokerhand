@@ -35,6 +35,65 @@ class PokerHandCollectionTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Test getHand method.
+   */
+  public function testGetHand() {
+    $hands = PokerHandCollection::createFromFeed(new PokerHandFeedDummy);
+
+    $this->assertEquals($hands->hands[1]->__toString(), $hands->getHand(1)->__toString());
+  }
+
+  /**
+   * Test sort hands.
+   */
+  public function testSortHands() {
+    $hands = new PokerHandCollection(array());
+
+    $a = new PokerHand;
+    $a
+      ->addCard('KS', 'S', 'K')
+      ->addCard('KD', 'D', 'K')
+      ->addCard('5H', 'H', 5)
+      ->addCard('9D', 'D', 9)
+      ->addCard('3C', 'C', 3)
+      ->setSets()
+      ->setRank();
+
+    $b = new PokerHand;
+    $b
+      ->addCard('AC', 'C', 'A')
+      ->addCard('AH', 'H', 'A')
+      ->addCard('5C', 'C', 5)
+      ->addCard('3D', 'D', 3)
+      ->addCard('4S', 'S', 4)
+      ->setSets()
+      ->setRank();
+
+    $hands->hands['Player 1'] = $a;
+    $hands->hands['Player 2'] = $b;
+    $hands->sortHands();
+
+    // B wins and is sorted first.
+    $this->assertEquals('Player 2', key($hands->hands));
+
+    $c = new PokerHand;
+    $c
+      ->addCard('AS', 'S', 'A')
+      ->addCard('AD', 'D', 'A')
+      ->addCard('4D', 'D', 4)
+      ->addCard('7D', 'D', 7)
+      ->addCard('5C', 'C', 5)
+      ->setSets()
+      ->setRank();
+
+    $hands->hands['Player 3'] = $c;
+    $hands->sortHands();
+
+    // Player 3 wins and is sorted first.
+    $this->assertEquals('Player 3', key($hands->hands));
+  }
+
+  /**
    * Test comparing two crap hands.
    */
   public function testKickerCompare() {
@@ -78,6 +137,47 @@ class PokerHandCollectionTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Test comparing two hands full of scoring cards.
+   */
+  public function testAllScoringHandCompare() {
+    $a = new PokerHand();
+    $a
+      ->addCard('QD', 'D', 'Q')
+      ->addCard('8D', 'D', 8)
+      ->addCard('7D', 'D', 7)
+      ->addCard('4D', 'D', 4)
+      ->addCard('3D', 'D', 3)
+      ->setSets()
+      ->setRank();
+
+    $b = new PokerHand();
+    $b
+      ->addCard('6H', 'H', 6)
+      ->addCard('6C', 'C', 6)
+      ->addCard('QS', 'S', 'Q')
+      ->addCard('QH', 'H', 'Q')
+      ->addCard('QC', 'C', 'Q')
+      ->setSets()
+      ->setRank();
+
+    // B > A rank
+    $this->assertEquals(1, PokerHandCollection::compareHands($a, $b));
+
+    $c = new PokerHand();
+    $c
+      ->addCard('5H', 'H', 5)
+      ->addCard('5C', 'C', 5)
+      ->addCard('JS', 'S', 'J')
+      ->addCard('JH', 'H', 'J')
+      ->addCard('JC', 'C', 'J')
+      ->setSets()
+      ->setRank();
+
+    // B has some hand rank as C, but is greater.
+    $this->assertEquals(-1, PokerHandCollection::compareHands($b, $c));
+  }
+
+  /**
    * Test comparing two hands.
    */
   public function testHandCompare() {
@@ -108,5 +208,4 @@ class PokerHandCollectionTest extends PHPUnit_Framework_TestCase {
 
     $this->assertEquals(1, PokerHandCollection::compareHands($a, $b));
   }
-
 }
