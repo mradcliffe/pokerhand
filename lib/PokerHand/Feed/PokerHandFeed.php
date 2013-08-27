@@ -4,7 +4,9 @@
  * PokerHandFeed.php
  */
 
-use PokerHand\PokerHandFeedInterface;
+namespace PokerHand\Feed;
+
+use PokerHand\Feed\PokerHandFeedInterface;
 
 /**
  * Get a feed
