@@ -11,12 +11,18 @@ use PokerHand\Feed\PokerHandFeedGenerator;
  */
 class PokerHandFeedGeneratorTest extends PHPUnit_Framework_TestCase {
 
+  /**
+   * Test that generator creates a deck of 52 cards.
+   */
   public function testConstruct() {
     $game = new PokerHandFeedGenerator();
 
     $this->assertEquals(52, $game->countCards());
   }
 
+  /**
+   * Test that generator creates a proper game for number of players.
+   */
   public function testNumPlayers() {
     $game = PokerHandFeedGenerator::createGameOf(2);
 
@@ -24,6 +30,9 @@ class PokerHandFeedGeneratorTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(2, $game->countPlayers());
   }
 
+  /**
+   * Test that generator can deal 1 card.
+   */
   public function testDeal() {
     $game = PokerHandFeedGenerator::createGameOf(2);
 
@@ -32,6 +41,9 @@ class PokerHandFeedGeneratorTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(1, $game->countHand('Player 1'));
   }
 
+  /**
+   * Test that generator can deal hands to players.
+   */
   public function testDealAllPlayers() {
     $game = PokerHandFeedGenerator::createGameOf(2);
 
@@ -40,6 +52,9 @@ class PokerHandFeedGeneratorTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(42, $game->countCards());
   }
 
+  /**
+   * Test that generator can empty the deck.
+   */
   public function testAllCards() {
     $game = new PokerHandFeedGenerator();
 
@@ -49,7 +64,4 @@ class PokerHandFeedGeneratorTest extends PHPUnit_Framework_TestCase {
       $this->assertNotNull($card['suit'], $i);
     }
   }
-
-
-
 }

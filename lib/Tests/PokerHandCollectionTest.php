@@ -13,6 +13,10 @@ use PokerHand\Feed\PokerHandFeedDummy;
  */
 class PokerHandCollectionTest extends PHPUnit_Framework_TestCase {
 
+  /**
+   * Test creating a set of poker hands from a feed. Use the dummy feed here
+   * because why not.
+   */
   public function testFeedData() {
     $hands = PokerHandCollection::createFromFeed(new PokerHandFeedDummy);
 
@@ -21,12 +25,18 @@ class PokerHandCollectionTest extends PHPUnit_Framework_TestCase {
     $this->assertCount(2, $hands->data, 'There are 2 hands.');
   }
 
+  /**
+   * Test the setHand method.
+   */
   public function testSetHand() {
     $hands = PokerHandCollection::createFromFeed(new PokerHandFeedDummy);
 
     $hands->setHand(new PokerHand);
   }
 
+  /**
+   * Test comparing two crap hands.
+   */
   public function testKickerCompare() {
     $hands = new PokerHandCollection(array());
 
@@ -67,6 +77,9 @@ class PokerHandCollectionTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse($a_high::compare($a_high, $b_high), $a_high->card . ' < ' . $b_high->card);
   }
 
+  /**
+   * Test comparing two hands.
+   */
   public function testHandCompare() {
     // Test a particular set of hands that failed code once.
     $a = new PokerHand();

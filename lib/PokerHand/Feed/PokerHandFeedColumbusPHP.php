@@ -13,12 +13,21 @@ use PokerHand\Feed\PokerHandFeedInterface;
  */
 class PokerHandFeedColumbusPHP implements PokerHandFeedInterface {
 
+  /**
+   * {@inheritdoc }
+   */
   static public $url = 'http://poker.columbusphp.org/hand';
 
+  /**
+   * {@inheritdoc }
+   */
   public function getUrl() {
     return self::$url;
   }
 
+  /**
+   * {@inheritdoc }
+   */
   public function getData($url) {
     $result = '';
     $header_options = array(
@@ -48,6 +57,9 @@ class PokerHandFeedColumbusPHP implements PokerHandFeedInterface {
     return $result;
   }
 
+  /**
+   * {@inheritdoc }
+   */
   public function parseData($data) {
     $info = array();
     $normalized = array();
@@ -60,7 +72,8 @@ class PokerHandFeedColumbusPHP implements PokerHandFeedInterface {
         $normalized[$hand->name] = array();
 
         // Normalize each card object into an array. "T" is a dumb abbreviation
-        // and I'm turning it back to 10.
+        // and I'm turning it back to 10. No, it's not really dumb, Bill. It
+        // makes sense for fixed width blah blah blah I'm not listening.
         foreach ($hand->hand as $card_index => $card) {
           $normalized[$hand->name][$card_index] = array(
             'suit' => $card->suite_abbr,

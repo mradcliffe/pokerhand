@@ -12,6 +12,9 @@ use PokerHand\PokerHand;
  */
 class PokerHandTest extends PHPUnit_Framework_TestCase {
 
+  /**
+   * Test flushes
+   */
   public function testFlush() {
     $hand = new PokerHand();
     $values = array(5, 'K', 3, 'J', 2);
@@ -31,6 +34,9 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse($hand->isFlush(), $hand->__toString());
   }
 
+  /**
+   * Test a random straight.
+   */
   public function testStraight() {
     $hand = new PokerHand();
     $suits = array('S', 'H', 'D', 'C');
@@ -56,6 +62,9 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse($hand->isStraight(), $hand->__toString());
   }
 
+  /**
+   * Test a straight of royal cards, which has its own logic in code.
+   */
   public function testRoyalStraight() {
     $hand = new PokerHand();
     $suits = array('S', 'H', 'D', 'C');
@@ -70,6 +79,9 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue($hand->isStraight(), $hand->__toString());
   }
 
+  /**
+   * Test a straight flush.
+   */
   public function testStraightFlush() {
     $hand = new PokerHand();
 
@@ -80,6 +92,9 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue($hand->isFlush() && $hand->isStraight(), $hand->__toString());
   }
 
+  /**
+   * Test a royal straight flush.
+   */
   public function testRoyalFlush() {
     $hand = new PokerHand();
     $royals = array(10 => 10, 11 => 'J', 12 => 'Q', 13 => 'K', 14 => 'A');
@@ -90,6 +105,9 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue($hand->isRoyal() && $hand->isFlush(), $hand->__toString());
   }
 
+  /** 
+   * Test a full house
+   */
   public function testFullHouse() {
     $hand = new PokerHand();
     $hand
@@ -106,6 +124,12 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(10, $hand->sets['three']);
   }
 
+  /** 
+   * Test various sets and logic behind getting sets: 1 pair, 2 pair,
+   * 3 of a kind, and 4 of a kind.
+   *
+   * @todo break this test into multiple tests.
+   */
   public function testSets() {
     // Pair of 5s.
     $hand = new PokerHand();
@@ -175,6 +199,9 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(5, $hand->sets['four']);
   }
 
+  /**
+   * Test functionality to grab the highest ranked card in a hand.
+   */
   public function testHighCard() {
     $hand = new PokerHand();
     $suits = array('S', 'H', 'D', 'C');
@@ -247,6 +274,9 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('9D', $two_high->card, $two->__toString());
   }
 
+  /** 
+   * Test high card that is not a part of a ranking set of cards.
+   */
   public function testHighScoreCard() {
     $hand = new PokerHand();
     $suits = array('S', 'H', 'D', 'C');
@@ -265,6 +295,9 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($high_card->card, '10S', $hand->__toString());
   }
 
+  /**
+   * Test string output.
+   */
   public function testToString() {
     $hand = new PokerHand();
     $suits = array('S', 'H', 'D', 'C');

@@ -14,11 +14,17 @@ use PokerHand\Feed\PokerHandFeedInterface;
  */
 class PokerHandFeedGenerator implements PokerHandFeedInterface, PokerHandGeneratorInterface {
 
+  /**
+   * {@inheritdoc }
+   */
   static public $url = '';
 
   private $deck;
   private $players;
 
+  /**
+   * {@inheritdoc }
+   */
   static public $suit_order = array(
     1 => 'S',
     2 => 'D',
@@ -26,6 +32,9 @@ class PokerHandFeedGenerator implements PokerHandFeedInterface, PokerHandGenerat
     4 => 'H',
   );
 
+  /**
+   * {@inheritdoc }
+   */
   static public $card_order = array(
     1 => 'A',
     2 => 2,
@@ -42,12 +51,16 @@ class PokerHandFeedGenerator implements PokerHandFeedInterface, PokerHandGenerat
     13 => 'K',
   );
 
-
+  /**
+   * Generate a deck of cards.
+   */
   function __construct() {
-    // Generate a deck of cards.
     $this->generateDeck();
   }
 
+  /**
+   * {@inheritdoc }
+   */
   static public function createGameOf($players = 2) {
     $instance =  new static();
 
@@ -63,10 +76,16 @@ class PokerHandFeedGenerator implements PokerHandFeedInterface, PokerHandGenerat
     return $instance;
   }
 
+  /**
+   * {@inheritdoc }
+   */
   public function getUrl() {
     return self::$url;
   }
 
+  /**
+   * {@inheritdoc }
+   */
   public function getData($url) {
     $num = count($this->players);
 
@@ -79,6 +98,9 @@ class PokerHandFeedGenerator implements PokerHandFeedInterface, PokerHandGenerat
     return $this->players;
   }
 
+  /**
+   * {@inheritdoc }
+   */
   public function parseData($data) {
     $info = array();
 
@@ -96,6 +118,9 @@ class PokerHandFeedGenerator implements PokerHandFeedInterface, PokerHandGenerat
     return $info;
   }
 
+  /**
+   * {@inheritdoc }
+   */
   public function shuffleDeck() {
     $new = array();
     $card_keys = array_keys($this->deck);
@@ -111,10 +136,16 @@ class PokerHandFeedGenerator implements PokerHandFeedInterface, PokerHandGenerat
     return $this;
   }
 
+  /** 
+   * {@inheritdoc }
+   */
   public function drawCard() {
     return array_shift($this->deck);
   }
 
+  /**
+   * {@inheritdoc }
+   */
   public function dealCard() {
     $current = key($this->players);
     $card =$this->drawCard();
@@ -130,6 +161,9 @@ class PokerHandFeedGenerator implements PokerHandFeedInterface, PokerHandGenerat
     return $this;
   }
 
+  /**
+   * {@inheritdoc }
+   */
   public function addHand($name) {
     if (count($this->players) > 14) {
       throw new \Exception('Cannot add any more hands.');
@@ -143,14 +177,23 @@ class PokerHandFeedGenerator implements PokerHandFeedInterface, PokerHandGenerat
     return $this;
   }
 
+  /** 
+   * {@inheritdoc }
+   */
   public function countPlayers() {
     return count($this->players);
   }
 
+  /**
+   * {@inheritdoc }
+   */
   public function countCards() {
     return count($this->deck);
   }
 
+  /**
+   * {@inheritdoc }
+   */
   public function countHand($name) {
     if (!isset($this->players[$name])) {
       print_r($this->players);
@@ -160,6 +203,9 @@ class PokerHandFeedGenerator implements PokerHandFeedInterface, PokerHandGenerat
     return count($this->players[$name]['hand']);
   }
 
+  /**
+   * {@inheritdoc }
+   */
   public function generateDeck() {
     $suit_ord = 1;
 

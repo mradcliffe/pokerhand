@@ -8,6 +8,9 @@ use PlayingCard\PlayingCard;
 
 class PlayingCardTest extends PHPUnit_Framework_TestCase {
 
+  /**
+   * Test comparing two cards.
+   */
   public function testCardCompare() {
     $a = PlayingCard::createFromString('AS');
     $b = PlayingCard::createFromString('AH');
@@ -15,6 +18,9 @@ class PlayingCardTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue(PlayingCard::compare($a, $b));
   }
 
+  /**
+   * Test creating a card from string.
+   */
   public function testCreateCard() {
     $a = PlayingCard::createFromString('AS');
     $this->assertFalse(empty($a->value));
