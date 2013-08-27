@@ -1,11 +1,17 @@
 # PokerHand
 
 This is a suite of classes to interface with http://poker.phpcolumbus.org/hand
-as part of the PHP Columbus Meetup Code Jam.
+as part of the PHP Columbus Meetup Code Jam. The challenge is to compare two
+Poker hands, determine the winner, and determine each hand rank.
+
+I chose the over-engineered approach because in essence this is simply a large
+if-elseif-else, and I don't make life easy.
 
 ## Challenge
 
-`php run.php`
+1. `cd pokerhand`
+2. `composer install`
+3. `php run.php`
 
 ## API
 
@@ -28,6 +34,11 @@ foreach ($game->hands as $name => $hand) {
 ```
 
 ## Interfaces / Classes
+
+### Generate PHP Docs
+
+- `mkdir docs`
+- `vendor/bin/phpdoc -d lib -t docs`
 
 ### PokerHandCollection
 
@@ -99,6 +110,11 @@ echo $ace_of_spades->__toString();
     $game->dealCard();
   }
 ```
+
+## Unit Tests
+
+- `mkdir coverage`
+- `vendor/bin/phpunit --coverage-html coverage lib/Tests`
 
 ## Notes
 
