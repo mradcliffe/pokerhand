@@ -56,6 +56,20 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse($hand->isStraight(), $hand->__toString());
   }
 
+  public function testRoyalStraight() {
+    $hand = new PokerHand();
+    $suits = array('S', 'H', 'D', 'C');
+    $values = array(0 => '10', 1 => 'J', 2 => 'Q', 3 => 'K', 4 => 'A');
+
+    for ($i = 0; $i < 5; $i++) {
+      // Add a card in sequence of different suits.
+      $suit_index = $i % 4;
+      $hand->addCard($values[$i] . $suits[$suit_index], $suits[$suit_index], $values[$i]);
+    }
+
+    $this->assertTrue($hand->isStraight(), $hand->__toString());
+  }
+
   public function testStraightFlush() {
     $hand = new PokerHand();
 
