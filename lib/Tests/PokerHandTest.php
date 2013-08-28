@@ -49,6 +49,10 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
 
     $this->assertTrue($hand->isStraight(), $hand->__toString());
 
+    // Set the rank and assert it.
+    $hand->setRank();
+    $this->assertEquals(5, $hand->hand_rank);
+
     // Generate a new hand with 4 cards in a straight.
     $hand = new PokerHand();
     for ($i = 2; $i < 6; $i++) {
@@ -60,6 +64,10 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
     $hand->addCard('10H', 'H', 10);
 
     $this->assertFalse($hand->isStraight(), $hand->__toString());
+
+    // Set the rank and assert it's not a straight.
+    $hand->setRank();
+    $this->assertEquals(1, $hand->hand_rank);
   }
 
   /**
@@ -90,6 +98,10 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
     }
 
     $this->assertTrue($hand->isFlush() && $hand->isStraight(), $hand->__toString());
+
+    // Set rank and assert it.
+    $hand->setRank();
+    $this->assertEquals(9, $hand->hand_rank);
   }
 
   /**
@@ -103,9 +115,13 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
       $hand->addCard($royals[$i] . 'H', 'H', $royals[$i]);
     }
     $this->assertTrue($hand->isRoyal() && $hand->isFlush(), $hand->__toString());
+
+    // Set rank and assert it.
+    $hand->setRank();
+    $this->assertEquals(10, $hand->hand_rank);
   }
 
-  /** 
+  /**
    * Test a full house
    */
   public function testFullHouse() {
@@ -124,7 +140,7 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(10, $hand->sets['three']);
   }
 
-  /** 
+  /**
    * Test various sets and logic behind getting sets: 1 pair, 2 pair,
    * 3 of a kind, and 4 of a kind.
    *
@@ -274,7 +290,7 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('9D', $two_high->card, $two->__toString());
   }
 
-  /** 
+  /**
    * Test high card that is not a part of a ranking set of cards.
    */
   public function testHighScoreCard() {
@@ -300,6 +316,9 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
    */
   public function testToString() {
     $hand = new PokerHand();
+    // Assert empty.
+    $this->assertEmpty($hand->__toString());
+
     $suits = array('S', 'H', 'D', 'C');
 
     for ($i = 2; $i < 7; $i++) {
