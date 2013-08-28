@@ -121,7 +121,7 @@ class PlayingCard {
    * @param $b
    *   The second PlayingCard object.
    * @return boolean
-   *   TRUE if the first card array is weighted higher than the second card array.
+   *   TRUE if the first card is weighted higher than the second card.
    */
   static public function compare(PlayingCard $a, PlayingCard $b) {
     $suit_rank = array_flip(self::$suits);
@@ -134,6 +134,21 @@ class PlayingCard {
     }
 
     return FALSE;
+  }
+
+  /**
+   * Compare two card objects value properties to check if the value is the
+   * same, but without checking suit.
+   *
+   * @param $a
+   *   PlayingCard
+   * @param $b
+   *   PlayingCard
+   * @return boolean
+   *   TRUE if the cards have equal values.
+   */
+  static public function equal(PlayingCard $a, PlayingCard $b) {
+    return self::$card_order[$a->value] == self::$card_order[$b->value];
   }
 
   /**

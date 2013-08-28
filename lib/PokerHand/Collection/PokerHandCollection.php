@@ -125,8 +125,7 @@ class PokerHandCollection {
    *   The second hand.
    * @return integer
    *   A negative integer if the first hand is weighted above the second hand,
-   *   and a negative one if vice versa. This seems like the opposite of usort
-   *   documentation, but it works...
+   *   and a positive one if vice versa.
    */
   static public function compareHands(PokerHand $a, PokerHand $b) {
     // Take the easy way out first.
@@ -147,9 +146,15 @@ class PokerHandCollection {
     elseif (count($a_cards) < 5) {
       $b_cards = $b->getScoringCards();
 
-      if ($a_high_card::compare($a->getHighCard($a_cards), $b->getHighCard($b_cards))) {
-        // Compare the highest card from the scoring cards in the hand.
-        return -1;
+      if (!$a_high_card::equal($a_high_card, $b->getHighCard($b_cards))) {
+        // Only compare the high cards if the values are not the same i.e. pair
+        // of 8s vs pair of 5s.
+        if ($a_high_card::compare($a->getHighCard($a_cards), $b->getHighCard($b_cards))) {
+          // Compare the highest card from the scoring cards in the hand.
+          return -1;
+        }
+
+        return 1;
       }
 
       // Get the kicker in the remaining cards in each hand, and compare the
@@ -164,7 +169,7 @@ class PokerHandCollection {
         throw new \Exception('A: ' . $a->__toString() . "\nB: " . $b->__toString() . "\n");
       }
 
-      if ($a_high_card::compare($a->getHighCard($a_kickers), $b->getHighCard($b_kickers))) {
+      if ($a_high_card::compare($a_high, $b_high)) {
         return -1;
       }
     }

@@ -75,6 +75,7 @@ class PokerHandCollectionTest extends PHPUnit_Framework_TestCase {
     $hands->sortHands();
 
     // B wins and is sorted first.
+    reset($hands->hands);
     $this->assertEquals('Player 2', key($hands->hands));
 
     $c = new PokerHand;
@@ -89,6 +90,7 @@ class PokerHandCollectionTest extends PHPUnit_Framework_TestCase {
 
     $hands->hands['Player 3'] = $c;
     $hands->sortHands();
+    reset($hands->hands);
 
     // Player 3 wins and is sorted first.
     $this->assertEquals('Player 3', key($hands->hands));
@@ -106,7 +108,7 @@ class PokerHandCollectionTest extends PHPUnit_Framework_TestCase {
       ->addCard('10S', 'S', 10)
       ->addCard('5D', 'D', 5)
       ->addCard('2S', 'S', 2)
-      ->addCard('AD', 'D', 'A')
+      ->addCard('4H', 'H', 4)
       ->addCard('JD', 'D', 'J');
     $hands->hands['a'] = $a;
 
@@ -161,6 +163,7 @@ class PokerHandCollectionTest extends PHPUnit_Framework_TestCase {
     $hands->hands['f'] = $f;
 
     $hands->rankHands()->sortHands();
+    reset($hands->hands);
 
     // B wins.
     $first = array_shift($hands->hands);
@@ -209,25 +212,21 @@ class PokerHandCollectionTest extends PHPUnit_Framework_TestCase {
       ->addCard('10D', 'D', 10)
       ->addCard('3S', 'S', 3);
 
-    $hands->hands[] = $a;
-    $hands->hands[] = $b;
+    $hands->hands['Player 1'] = $a;
+    $hands->hands['Player 2'] = $b;
 
     // Rank hands.
     $hands->rankHands();
 
-    // Pull out the kickers for each hand.
-    $a_kickers = array_diff_key($a->cards, $a->getScoringCards());
-    $this->assertNotEmpty($a_kickers);
-    $b_kickers = array_diff_key($b->cards, $b->getScoringCards());
-    $this->assertNotEmpty($b_kickers);
+    // Test the hand compare, which should test kicker compare.
+    $this->assertEquals(1, PokerHandCollection::compareHands($a, $b), $a->__toString() . ' < ' . $b->__toString());
+    
+    // Sort hands.
+    $hands->sortHands();
+    reset($hands->hands);
 
-    // Get the high cards from the kicker possibilities.
-    $a_high = $a->getHighCard($a_kickers);
-    $this->assertEquals('9D', $a_high->card);
-    $b_high = $b->getHighCard($b_kickers);
-    $this->assertEquals('10D', $b_high->card);
-
-    $this->assertFalse($a_high::compare($a_high, $b_high), $a_high->card . ' < ' . $b_high->card);
+    // Make sure the full sortHands thing works with kicker compare.
+    $this->assertEquals('Player 2', key($hands->hands));
   }
 
   /**
