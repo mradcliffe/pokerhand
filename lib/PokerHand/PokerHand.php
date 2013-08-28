@@ -274,10 +274,10 @@ class PokerHand {
 
   /**
    * Reduce the cards array to just the cards that are a part of the ranked
-   * hand, if possible. Otherwise return the entire cards array.
+   * hand, if possible. Otherwise return the entire hand of cards.
    *
    * @return array
-   *   An array of card arrays.
+   *   An array of card objects.
    */
   public function getScoringCards() {
     if (!isset($this->hand_rank) || !isset($this->sets)) {
