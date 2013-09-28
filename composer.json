@@ -1,4 +1,17 @@
 {
+  "name": "mradcliffe/pokerhand",
+  "description": "Poker Hand is a suite of classes to compare poker hands per the ColumbubsPHP Code Challenge #1.",
+  "type": "library",
+  "license": "GPL-2.0+",
+  "keywords": ["poker", "columbusphp"],
+  "homepage": "https://github.com/mradcliffe/pokerhand",
+  "authors": [
+    {
+      "name": "Matthew Radcliffe",
+      "email": "mradcliffe@softpixel.com",
+      "role": "Developer"
+    }
+  ],
   "require": {
     "symfony/class-loader": "2.3.*"
   },
