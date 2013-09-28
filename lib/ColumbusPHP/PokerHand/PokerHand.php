@@ -4,9 +4,9 @@
  * PokerHand.php
  */
 
-namespace PokerHand;
+namespace ColumbusPHP\PokerHand;
 
-use PlayingCard\PlayingCard;
+use ColumbusPHP\PlayingCard\PlayingCard;
 
 class PokerHand {
 

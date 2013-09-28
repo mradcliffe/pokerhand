@@ -4,10 +4,10 @@
  * PokerHandFeedGenerator.php
  */
 
-namespace PokerHand\Feed;
+namespace ColumbusPHP\PokerHand\Feed;
 
-use PokerHand\Generator\PokerHandGeneratorInterface;
-use PokerHand\Feed\PokerHandFeedInterface;
+use ColumbusPHP\PokerHand\Generator\PokerHandGeneratorInterface;
+use ColumbusPHP\PokerHand\Feed\PokerHandFeedInterface;
 
 /**
  * Create random N poker hands.

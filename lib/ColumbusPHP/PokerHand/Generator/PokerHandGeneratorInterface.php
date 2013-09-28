@@ -4,7 +4,7 @@
  * PokerHandGeneratorInterface.php
  */
 
-namespace PokerHand\Generator;
+namespace ColumbusPHP\PokerHand\Generator;
 
 /**
  * Interface for generating poker hands for a feed.

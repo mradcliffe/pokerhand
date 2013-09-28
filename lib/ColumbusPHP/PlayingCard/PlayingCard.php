@@ -4,7 +4,7 @@
  * PlayingCard.php
  */
 
-namespace PlayingCard;
+namespace ColumbusPHP\PlayingCard;
 
 /**
  * Provide methods on playing cards.

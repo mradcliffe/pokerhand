@@ -4,7 +4,7 @@
  * PlayingCardTest.php
  */
 
-use PlayingCard\PlayingCard;
+use ColumbusPHP\PlayingCard\PlayingCard;
 
 class PlayingCardTest extends PHPUnit_Framework_TestCase {
 

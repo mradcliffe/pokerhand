@@ -4,10 +4,10 @@
  * PokerHandCollection.php
  */
 
-namespace PokerHand\Collection;
+namespace ColumbusPHP\PokerHand\Collection;
 
-use PokerHand\PokerHand;
-use PokerHand\Feed\PokerHandFeedInterface;
+use ColumbusPHP\PokerHand\PokerHand;
+use ColumbusPHP\PokerHand\Feed\PokerHandFeedInterface;
 
 /**
  * A collection of poker hands.

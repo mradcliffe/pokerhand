@@ -42,7 +42,7 @@ foreach ($game->hands as $name => $hand) {
 
 ### PokerHandCollection
 
-- PokerHand\Collection\PokerHandCollection
+- ColumbusPHP\PokerHand\Collection\PokerHandCollection
   - The main class for this library. Instantiate a PokerHandCollection with a PokerHandFeedInterface.
   - PokerHandCollection::hands
      - An associative array of PokerHand objects keyed by the hand name i.e. Player 1, Player 2.
@@ -52,7 +52,7 @@ foreach ($game->hands as $name => $hand) {
 
 ### PokerHand
 
-- PokerHand\PokerHand
+- ColumbusPHP\PokerHand\PokerHand
    - Methods for interacting with a Poker hand to identify the bask rank 1-10 of a hand.
    - PokerHand::hand
       - An associative array of PlayingCard objects.
@@ -70,7 +70,7 @@ print $hand::ranks[$hand->hand_rank];
 
 ### PlayingCard
 
-- PlayingCard\PlayingCard
+- ColumbusPHP\PlayingCard\PlayingCard
   - A low-level class for representing a playing card. New.
   - PlayingCard::value
   - PlayingCard::card
@@ -84,19 +84,19 @@ echo $ace_of_spades->__toString();
 
 ### PokerHandFeedInterface
 
-- PokerHand\Feed\PokerHandFeedPHPColumbus
+- ColumbusPHP\PokerHand\Feed\PokerHandFeedPHPColumbus
    - Implements the feed interface for http://poker.columbusphp.org/hand
 
-- PokerHand\Feed\PokerHandFeedDummy
+- ColumbusPHP\PokerHand\Feed\PokerHandFeedDummy
    - Implements a dummy feed that returns in the same format as PokerHandFeedPHPColumbus.
 
-- PokerHand\Feed\PokerHandFeedGenerator
+- ColumbusPHP\PokerHand\Feed\PokerHandFeedGenerator
    - Implements a feed and implements PokerHandGenerator to create greater than 2 players feed.
 
 ## PokerHandGeneratorInterface
 
-- PokerHand\Feed\PokerHandFeedGenerator
-   - @todo use PlayingCard\PlayingCard in the generator.
+- ColumbusPHP\PokerHand\Feed\PokerHandFeedGenerator
+   - @todo use ColumbusPHP\PlayingCard\PlayingCard in the generator.
 
 ```php
   // This static method will generate the deck, shuffle, and add the players.

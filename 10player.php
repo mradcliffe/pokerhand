@@ -7,9 +7,9 @@
 $loader = require 'vendor/autoload.php';
 $loader->register();
 
-use PokerHand\PokerHand;
-use PokerHand\Feed\PokerHandFeedGenerator;
-use PokerHand\Collection\PokerHandCollection;
+use ColumbusPHP\PokerHand\PokerHand;
+use ColumbusPHP\PokerHand\Feed\PokerHandFeedGenerator;
+use ColumbusPHP\PokerHand\Collection\PokerHandCollection;
 
 $game = PokerHandCollection::createFromFeed(PokerHandFeedGenerator::createGameOf(10));
 

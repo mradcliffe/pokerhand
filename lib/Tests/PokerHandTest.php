@@ -4,8 +4,8 @@
  * PokerHandTest.php
  */
 
-use PlayingCard\PlayingCard;
-use PokerHand\PokerHand;
+use ColumbusPHP\PlayingCard\PlayingCard;
+use ColumbusPHP\PokerHand\PokerHand;
 
 /**
  * Test PokerHand methods.

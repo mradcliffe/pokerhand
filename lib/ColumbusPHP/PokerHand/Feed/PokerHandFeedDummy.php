@@ -4,9 +4,9 @@
  * PokerHandFeedDummy.php
  */
 
-namespace PokerHand\Feed;
+namespace ColumbusPHP\PokerHand\Feed;
 
-use PokerHand\Feed\PokerHandFeedInterface;
+use ColumbusPHP\PokerHand\Feed\PokerHandFeedInterface;
 
 /**
  * Provide a static data hand to test with.

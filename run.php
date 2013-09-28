@@ -9,9 +9,9 @@
 $loader = require 'vendor/autoload.php';
 $loader->register();
 
-use PokerHand\PokerHand;
-use PokerHand\Feed\PokerHandFeedColumbusPHP;
-use PokerHand\Collection\PokerHandCollection;
+use ColumbusPHP\PokerHand\PokerHand;
+use ColumbusPHP\PokerHand\Feed\PokerHandFeedColumbusPHP;
+use ColumbusPHP\PokerHand\Collection\PokerHandCollection;
 
 // Get a poker hand collection and rank 'em.
 $hands = PokerHandCollection::createFromFeed(new PokerHandFeedColumbusPHP);

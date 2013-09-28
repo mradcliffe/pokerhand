@@ -4,7 +4,7 @@
  * PokerHandFeedInterface.php
  */
 
-namespace PokerHand\Feed;
+namespace ColumbusPHP\PokerHand\Feed;
 
 /**
  * Feed Interface for poker.columbusphp.org

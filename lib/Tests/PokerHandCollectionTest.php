@@ -4,9 +4,9 @@
  * PokerHandCollectionTest.php
  */
 
-use PokerHand\PokerHand;
-use PokerHand\Collection\PokerHandCollection;
-use PokerHand\Feed\PokerHandFeedDummy;
+use ColumbusPHP\PokerHand\PokerHand;
+use ColumbusPHP\PokerHand\Collection\PokerHandCollection;
+use ColumbusPHP\PokerHand\Feed\PokerHandFeedDummy;
 
 /**
  * Tests for PokerHandCollection.php
@@ -20,7 +20,7 @@ class PokerHandCollectionTest extends PHPUnit_Framework_TestCase {
   public function testFeedData() {
     $hands = PokerHandCollection::createFromFeed(new PokerHandFeedDummy);
 
-    $this->assertInstanceOf('PokerHand\Collection\PokerHandCollection', $hands);
+    $this->assertInstanceOf('ColumbusPHP\PokerHand\Collection\PokerHandCollection', $hands);
 
     $this->assertCount(2, $hands->data, 'There are 2 hands.');
   }

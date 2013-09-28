@@ -4,9 +4,9 @@
  * PokerHandFeedColumbusPHP.php
  */
 
-namespace PokerHand\Feed;
+namespace ColumbusPHP\PokerHand\Feed;
 
-use PokerHand\Feed\PokerHandFeedInterface;
+use ColumbusPHP\PokerHand\Feed\PokerHandFeedInterface;
 
 /**
  * Fetch the poker hands from Bill Condo's feed.

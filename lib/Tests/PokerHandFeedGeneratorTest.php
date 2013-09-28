@@ -4,7 +4,7 @@
  * PokerHandFeedGeneratorTest.php
  */
 
-use PokerHand\Feed\PokerHandFeedGenerator;
+use ColumbusPHP\PokerHand\Feed\PokerHandFeedGenerator;
 
 /**
  * Test the poker hand generator feed.
