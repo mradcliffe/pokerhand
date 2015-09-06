@@ -5,7 +5,6 @@
   convertErrorsToExceptions="true"
   convertNoticesToExceptions="true"
   convertWarningsToExceptions="true"
-  verbose="true"
 >
   <php>
     <!-- Set error reporting to E_ALL. -->
@@ -23,7 +22,7 @@
   <!-- Filter for coverage reports. -->
   <filter>
     <whitelist>
-      <directory>lib</directory>
+      <directory>src</directory>
     </whitelist>
   </filter>
 </phpunit>

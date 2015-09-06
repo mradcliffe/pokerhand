@@ -13,19 +13,16 @@
     }
   ],
   "require": {
-    "symfony/class-loader": "2.3.*"
+    "symfony/class-loader": "2.6.*"
   },
   "require-dev": {
-    "phpdocumentor/phpdocumentor": "2.0.*",
-    "phpunit/phpunit": "3.7.*"
+    "phpdocumentor/phpdocumentor": "2.8.*",
+    "phpunit/phpunit": "4.8.*"
   },
   "autoload": {
-    "psr-0": {
-      "ColumbusPHP\\": "lib/",
-      "ColumbusPHP\\PlayingCard\\": "lib/ColumbusPHP/PlayingCard",
-      "ColumbusPHP\\PokerHand\\": "lib/ColumbusPHP/PokerHand",
-      "ColumbusPHP\\PokerHand\\Collection\\": "lib/ColumbusPHP/PokerHand/Collection",
-      "ColumbusPHP\\PokerHand\\Feed\\": "lib/ColumbusPHP/PokerHand/Feed"
+    "psr-4": {
+      "ColumbusPHP\\PlayingCard\\": "src/PlayingCard",
+      "ColumbusPHP\\PokerHand\\": "src/PokerHand"
     }
   }
 }
