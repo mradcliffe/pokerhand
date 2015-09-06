@@ -3,3 +3,4 @@ coverage
 docs
 composer.lock
 composer.phar
+log.txt

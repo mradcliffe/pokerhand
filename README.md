@@ -1,5 +1,7 @@
 # PokerHand
 
+[![Build Status](https://travis-ci.org/mradcliffe/pokerhand.svg?branch=master)](https://travis-ci.org/mradcliffe/pokerhand)
+
 This is a suite of classes to interface with http://poker.phpcolumbus.org/hand
 as part of the PHP Columbus Meetup Code Jam. The challenge is to compare two
 Poker hands, determine the winner, and determine each hand rank.
