@@ -7,6 +7,7 @@
 namespace ColumbusPHP\PokerHand\Feed;
 
 use ColumbusPHP\PokerHand\Feed\PokerHandFeedInterface;
+use GuzzleHttp\Exception\RequestException;
 
 /**
  * Fetch the poker hands from Bill Condo's feed.
@@ -17,6 +18,21 @@ class PokerHandFeedColumbusPHP implements PokerHandFeedInterface {
    * {@inheritdoc }
    */
   static public $url = 'http://poker.columbusphp.org/hand';
+
+  /**
+   * @var \GuzzleHttp\ClientInterface
+   */
+  protected $client;
+
+  /**
+   * Create a new feed from ColumubsPHP feed.
+   *
+   * @param \GuzzleHttp\ClientInterface $client
+   *   A guzzle client.
+   */
+  public function __construct(\GuzzleHttp\ClientInterface $client) {
+    $this->client = $client;
+  }
 
   /**
    * {@inheritdoc }
@@ -36,22 +52,12 @@ class PokerHandFeedColumbusPHP implements PokerHandFeedInterface {
     );
 
     try {
-      $ch = curl_init();
+      $response = $this->client->get($url, $header_options);
 
-      curl_setopt($ch, CURLOPT_URL, $url);
-      curl_setopt($ch, CURLOPT_HTTPHEADER, $header_options);
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-      curl_setopt($ch, CURLOPT_USERAGENT, 'PokerHandFeedColumbusPHP');
-
-      $result = curl_exec($ch);
-      $result_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-      if (!in_array($result_code, array(200))) {
-        throw new \Exception('Error: ' . curl_errno($ch) . ' ' . curl_error($ch));
-      }
+      $result = $response->getBody()->getContents();
     }
-    catch (\Exception $e) {
-      print 'An error occurred trying to get the feed.';
+    catch (RequestException $e) {
+      throw $e;
     }
 
     return $result;
@@ -66,6 +72,10 @@ class PokerHandFeedColumbusPHP implements PokerHandFeedInterface {
 
     try {
       $info = json_decode($data);
+
+      if ($info === NULL) {
+        throw new \Exception();
+      }
 
       // Normalize the hand object into an array.
       foreach ($info as $index => $hand) {
@@ -84,7 +94,7 @@ class PokerHandFeedColumbusPHP implements PokerHandFeedInterface {
       }
     }
     catch (\Exception $e) {
-      print 'An error occurred trying to parse the feed data.';
+      throw $e;
     }
 
     return $normalized;
