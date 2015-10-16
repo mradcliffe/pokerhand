@@ -7,7 +7,6 @@
 $loader = require 'vendor/autoload.php';
 $loader->register();
 
-use ColumbusPHP\PokerHand\PokerHand;
 use ColumbusPHP\PokerHand\Feed\PokerHandFeedGenerator;
 use ColumbusPHP\PokerHand\Collection\PokerHandCollection;
 
