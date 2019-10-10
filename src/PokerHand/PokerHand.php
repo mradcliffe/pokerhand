@@ -126,6 +126,11 @@ class PokerHand {
         $straight_continues = FALSE;
 
         foreach ($result['cards'] as $card_value) {
+          // Janky fix for non-numeric card values.
+          if (!is_numeric($card_value)) {
+            $card_value = self::$card_order[$card_value];
+          }
+
           if (($card_value + 1 == $item->value || $card_value - 1 == $item->value) && !in_array($item->value, $result['cards'])) {
             // End the loop if the current card is one greater or less than a
             // card in the straight, AND there are no sets of any thing.
