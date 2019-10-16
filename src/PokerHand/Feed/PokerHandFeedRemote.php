@@ -39,7 +39,7 @@ class PokerHandFeedRemote implements PokerHandFeedInterface {
    * {@inheritdoc }
    */
   public function getUrl() {
-    return $this -> $url;
+    return $this -> url;
   }
 
   /**
