@@ -10,14 +10,14 @@ use ColumbusPHP\PokerHand\Feed\PokerHandFeedInterface;
 use GuzzleHttp\Exception\RequestException;
 
 /**
- * Fetch the poker hands from Bill Condo's feed.
+ * Fetch the poker hands from a remote feed.
  */
-class PokerHandFeedColumbusPHP implements PokerHandFeedInterface {
+class PokerHandFeedRemote implements PokerHandFeedInterface {
 
   /**
-   * {@inheritdoc }
+   * @var string
    */
-  static public $url = 'http://poker.columbusphp.org/hand';
+  static public $url = '';
 
   /**
    * @var \GuzzleHttp\ClientInterface
@@ -30,7 +30,8 @@ class PokerHandFeedColumbusPHP implements PokerHandFeedInterface {
    * @param \GuzzleHttp\ClientInterface $client
    *   A guzzle client.
    */
-  public function __construct(\GuzzleHttp\ClientInterface $client) {
+  public function __construct(\GuzzleHttp\ClientInterface $client, $feed = 'http://poker.columbusphp.org/hand') {
+    $this -> url = $feed;
     $this->client = $client;
   }
 
