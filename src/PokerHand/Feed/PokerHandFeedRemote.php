@@ -17,7 +17,7 @@ class PokerHandFeedRemote implements PokerHandFeedInterface {
   /**
    * @var string
    */
-  static public $url = '';
+  public $url = '';
 
   /**
    * @var \GuzzleHttp\ClientInterface
@@ -39,7 +39,7 @@ class PokerHandFeedRemote implements PokerHandFeedInterface {
    * {@inheritdoc }
    */
   public function getUrl() {
-    return self::$url;
+    return $this -> $url;
   }
 
   /**
