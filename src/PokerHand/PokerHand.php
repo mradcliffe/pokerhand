@@ -13,12 +13,12 @@ class PokerHand {
   /**
    * An indexed array of zero to five PlayingCard objects.
    */
-  public $cards;
+  public $cards = [];
 
   /**
    * The base hand rank 1-10.
    */
-  public $hand_rank;
+  public $hand_rank = NULL;
 
   /**
    * Sets of a kind associative array
@@ -27,7 +27,7 @@ class PokerHand {
    * three: the card value of three of a kind if any.
    * four: the card value of four of a kind if any.
    */
-  public $sets;
+  public $sets = [];
 
   /**
    * Human-readable names of hand ranks.
@@ -87,7 +87,7 @@ class PokerHand {
    *   The object for chaining.
    */
   public function addCard($card, $suit, $value) {
-    if (count($this->cards) == 5) {
+    if (is_array($this->cards) && count($this->cards) == 5) {
       throw new Exception('Cannot add another card to the hand.');
     }
 
@@ -126,6 +126,11 @@ class PokerHand {
         $straight_continues = FALSE;
 
         foreach ($result['cards'] as $card_value) {
+          // Janky fix for non-numeric card values.
+          if (!is_numeric($card_value)) {
+            $card_value = self::$card_order[$card_value];
+          }
+
           if (($card_value + 1 == $item->value || $card_value - 1 == $item->value) && !in_array($item->value, $result['cards'])) {
             // End the loop if the current card is one greater or less than a
             // card in the straight, AND there are no sets of any thing.

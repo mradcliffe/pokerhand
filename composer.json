@@ -13,7 +13,6 @@
     }
   ],
   "require": {
-    "symfony/class-loader": "2.6.*",
     "guzzlehttp/guzzle": "6.0.*"
   },
   "require-dev": {
