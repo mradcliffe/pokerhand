@@ -31,7 +31,7 @@ class PokerHandFeedRemote implements PokerHandFeedInterface {
    *   A guzzle client.
    */
   public function __construct(\GuzzleHttp\ClientInterface $client, $feed = 'http://poker.columbusphp.org/hand') {
-    $this -> url = $feed;
+    $this->url = $feed;
     $this->client = $client;
   }
 
@@ -39,7 +39,7 @@ class PokerHandFeedRemote implements PokerHandFeedInterface {
    * {@inheritdoc }
    */
   public function getUrl() {
-    return $this -> url;
+    return $this->url;
   }
 
   /**
