@@ -43,7 +43,7 @@ class PokerHandCollection {
    *   PokerHandCollection object
    */
   static public function createFromFeed(PokerHandFeedInterface $feed) {
-    $raw = $feed->getData($feed::$url);
+    $raw = $feed->getData($feed -> getUrl());
 
     return new static($feed->parseData($raw));
   }
