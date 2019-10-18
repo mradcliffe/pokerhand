@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * PokerHandFeedColumbusPHP.php
+ * PokerHandFeedRemote.php
  */
 
 namespace ColumbusPHP\PokerHand\Feed;

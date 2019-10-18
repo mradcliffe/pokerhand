@@ -1,22 +1,22 @@
 <?php
 /**
  * @file
- * Stuff
+ * PokerHandFeedRemoteTest.php
  */
 
-use ColumbusPHP\PokerHand\Feed\PokerHandFeedColumbusPHP;
+use ColumbusPHP\PokerHand\Feed\PokerHandFeedRemote;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 
-class PokerHandFeedColumbusPHPTest extends PHPUnit_Framework_TestCase {
+class PokerHandFeedRemoteTest extends PHPUnit_Framework_TestCase {
 
   /**
    * Tests the get url method.
    */
   public function testGetUrl() {
-    $feed = new PokerHandFeedColumbusPHP(new Client());
+    $feed = new PokerHandFeedRemote(new Client(), 'http://poker.columbusphp.org/hand');
     $this->assertEquals('http://poker.columbusphp.org/hand', $feed->getUrl());
   }
 
@@ -47,7 +47,7 @@ class PokerHandFeedColumbusPHPTest extends PHPUnit_Framework_TestCase {
     ]);
     $handler = HandlerStack::create($mock);
     $client = new Client(['handler' => $handler]);
-    $feed = new PokerHandFeedColumbusPHP($client);
+    $feed = new PokerHandFeedRemote($client);
 
     // Get the raw data.
     $data = $feed->getData($feed->getUrl());
@@ -70,7 +70,7 @@ class PokerHandFeedColumbusPHPTest extends PHPUnit_Framework_TestCase {
     ]);
     $handler = HandlerStack::create($mock);
     $client = new Client(['handler' => $handler]);
-    $feed = new PokerHandFeedColumbusPHP($client);
+    $feed = new PokerHandFeedRemote($client, 'http://poker.columbusphp.org/hand');
 
     // Get the raw data and try to parse it.
     $data = $feed->getData($feed->getUrl());
@@ -88,7 +88,7 @@ class PokerHandFeedColumbusPHPTest extends PHPUnit_Framework_TestCase {
     ]);
     $handler = HandlerStack::create($mock);
     $client = new Client(['handler' => $handler]);
-    $feed = new PokerHandFeedColumbusPHP($client);
+    $feed = new PokerHandFeedRemote($client, 'http://poker.columbusphp.org/hand');
 
     // Try to get data.
     $data = $feed->getData($feed->getUrl());
