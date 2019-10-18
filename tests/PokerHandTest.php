@@ -47,6 +47,7 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
       $hand->addCard($i . $suits[$suit_index], $suits[$suit_index], $i);
     }
 
+    $hand->setSets();
     $this->assertTrue($hand->isStraight(), $hand->__toString());
 
     // Set the rank and assert it.
@@ -62,6 +63,7 @@ class PokerHandTest extends PHPUnit_Framework_TestCase {
 
     // Set one card out of order.
     $hand->addCard('10H', 'H', 10);
+    $hand->setSets();
 
     $this->assertFalse($hand->isStraight(), $hand->__toString());
 

@@ -19,8 +19,8 @@ class PokerHandFeedGenerator implements PokerHandFeedInterface, PokerHandGenerat
    */
   static public $url = '';
 
-  private $deck;
-  private $players;
+  private $deck = [];
+  private $players = [];
 
   /**
    * {@inheritdoc }
@@ -136,7 +136,7 @@ class PokerHandFeedGenerator implements PokerHandFeedInterface, PokerHandGenerat
     return $this;
   }
 
-  /** 
+  /**
    * {@inheritdoc }
    */
   public function drawCard() {
@@ -177,7 +177,7 @@ class PokerHandFeedGenerator implements PokerHandFeedInterface, PokerHandGenerat
     return $this;
   }
 
-  /** 
+  /**
    * {@inheritdoc }
    */
   public function countPlayers() {

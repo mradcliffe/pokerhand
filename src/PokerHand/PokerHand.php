@@ -13,12 +13,12 @@ class PokerHand {
   /**
    * An indexed array of zero to five PlayingCard objects.
    */
-  public $cards;
+  public $cards = [];
 
   /**
    * The base hand rank 1-10.
    */
-  public $hand_rank;
+  public $hand_rank = NULL;
 
   /**
    * Sets of a kind associative array
@@ -27,7 +27,7 @@ class PokerHand {
    * three: the card value of three of a kind if any.
    * four: the card value of four of a kind if any.
    */
-  public $sets;
+  public $sets = [];
 
   /**
    * Human-readable names of hand ranks.
