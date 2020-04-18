@@ -1,12 +1,6 @@
 <?php
-/**
- * @file
- * PokerHandFeedDummy.php
- */
 
 namespace ColumbusPHP\PokerHand\Feed;
-
-use ColumbusPHP\PokerHand\Feed\PokerHandFeedInterface;
 
 /**
  * Provide a static data hand to test with.

@@ -1,16 +1,15 @@
 <?php
-/**
- * @file
- * PokerHandTest.php
- */
 
-use ColumbusPHP\PlayingCard\PlayingCard;
+namespace ColumbusPHP\Tests\PokerHand;
+
+use ColumbusPHP\PokerHand\PlayingCard\PlayingCard;
 use ColumbusPHP\PokerHand\PokerHand;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test PokerHand methods.
  */
-class PokerHandTest extends PHPUnit_Framework_TestCase {
+class PokerHandTest extends TestCase {
 
   /**
    * Test flushes

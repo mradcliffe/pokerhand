@@ -1,12 +1,8 @@
 <?php
-/**
- * @file
- * PokerHand.php
- */
 
 namespace ColumbusPHP\PokerHand;
 
-use ColumbusPHP\PlayingCard\PlayingCard;
+use ColumbusPHP\PokerHand\PlayingCard\PlayingCard;
 
 class PokerHand {
 
@@ -83,7 +79,7 @@ class PokerHand {
    *   The suit character
    * @param $value
    *   The card value
-   * @return this
+   * @return \ColumbusPHP\PokerHand\PokerHand
    *   The object for chaining.
    */
   public function addCard($card, $suit, $value) {
@@ -317,7 +313,7 @@ class PokerHand {
   /**
    * Assign base hand rank.
    *
-   * @return this
+   * @return \ColumbusPHP\PokerHand\PokerHand
    *   Return the current object.
    */
   public function setRank() {

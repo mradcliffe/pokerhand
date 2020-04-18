@@ -1,16 +1,15 @@
 <?php
-/**
- * @file
- * PokerHandFeedRemoteTest.php
- */
+
+namespace ColumbusPHP\Tests\PokerHand\Feed;
 
 use ColumbusPHP\PokerHand\Feed\PokerHandFeedRemote;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\TestCase;
 
-class PokerHandFeedRemoteTest extends PHPUnit_Framework_TestCase {
+class PokerHandFeedRemoteTest extends TestCase {
 
   /**
    * Tests the get url method.

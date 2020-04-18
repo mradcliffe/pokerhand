@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * PokerHandCollection.php
- */
 
 namespace ColumbusPHP\PokerHand\Collection;
 
@@ -39,7 +35,7 @@ class PokerHandCollection {
    *
    * @param $feed
    *   PokerHandFeedInterface
-   * @return this
+   * @return \ColumbusPHP\PokerHand\Collection\PokerHandCollection
    *   PokerHandCollection object
    */
   static public function createFromFeed(PokerHandFeedInterface $feed) {
@@ -51,12 +47,12 @@ class PokerHandCollection {
   /**
    * Get a PokerHand by index.
    *
-   * @param $index
+   * @param integer $index
    *   The hand to retrieve.
-   * @return PokerHand
+   * @return \ColumbusPHP\PokerHand\PokerHand
    *   The PokerHand object.
    */
-  public function getHand($index = 0) {
+  public function getHand($index = 1) {
     return $this->hands[$index];
   }
 
@@ -67,8 +63,10 @@ class PokerHandCollection {
    *   PokerHand
    * @param $index
    *   An optional index. Defaults to the first hand, 1.
-   * @return this
+   * @return \ColumbusPHP\PokerHand\Collection\PokerHandCollection
    *   Return the PokerHandCollection object.
+   *
+   * @deprecated Remove useless function.
    */
   public function setHand(PokerHand $hand, $index = 1) {
     if (isset($this->data[$index])) {
@@ -88,7 +86,7 @@ class PokerHandCollection {
   /**
    * Rank a set of hands.
    *
-   * @return this
+   * @return \ColumbusPHP\PokerHand\Collection\PokerHandCollection
    *   PokerHandCollection object.
    */
   public function rankHands() {

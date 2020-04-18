@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * PokerHandGeneratorInterface.php
- */
 
 namespace ColumbusPHP\PokerHand\Generator;
 
@@ -42,7 +38,7 @@ interface PokerHandGeneratorInterface {
   /**
    * Draw a and deal a card to a player.
    *
-   * @return this
+   * @return \ColumbusPHP\PokerHand\Generator\PokerHandGeneratorInterface
    */
   public function dealCard();
 
@@ -51,7 +47,7 @@ interface PokerHandGeneratorInterface {
    *
    * @param $name
    *   The name of the hand to add, which becomes the key.
-   * @return this
+   * @return \ColumbusPHP\PokerHand\Generator\PokerHandGeneratorInterface
    */
   public function addHand($name);
 
@@ -74,7 +70,7 @@ interface PokerHandGeneratorInterface {
   /**
    * Count the number of cards in a player's hand.
    *
-   * @return $name
+   * @param string $name
    *   The player name i.e. the key.
    * @return integer
    *   The number of cards in a player's hand.

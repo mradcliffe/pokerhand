@@ -1,12 +1,7 @@
 <?php
-/**
- * @file
- * PokerHandFeedRemote.php
- */
 
 namespace ColumbusPHP\PokerHand\Feed;
 
-use ColumbusPHP\PokerHand\Feed\PokerHandFeedInterface;
 use GuzzleHttp\Exception\RequestException;
 
 /**

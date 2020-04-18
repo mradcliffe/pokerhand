@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * PokerHandFeedInterface.php
- */
 
 namespace ColumbusPHP\PokerHand\Feed;
 

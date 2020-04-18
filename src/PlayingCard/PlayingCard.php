@@ -1,10 +1,6 @@
 <?php
-/**
- * @file
- * PlayingCard.php
- */
 
-namespace ColumbusPHP\PlayingCard;
+namespace ColumbusPHP\PokerHand\PlayingCard;
 
 /**
  * Provide methods on playing cards.

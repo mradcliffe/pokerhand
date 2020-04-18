@@ -1,13 +1,8 @@
 <?php
-/**
- * @file
- * PokerHandFeedGenerator.php
- */
 
 namespace ColumbusPHP\PokerHand\Feed;
 
 use ColumbusPHP\PokerHand\Generator\PokerHandGeneratorInterface;
-use ColumbusPHP\PokerHand\Feed\PokerHandFeedInterface;
 
 /**
  * Create random N poker hands.
@@ -15,7 +10,7 @@ use ColumbusPHP\PokerHand\Feed\PokerHandFeedInterface;
 class PokerHandFeedGenerator implements PokerHandFeedInterface, PokerHandGeneratorInterface {
 
   /**
-   * {@inheritdoc }
+   * @var string
    */
   static public $url = '';
 

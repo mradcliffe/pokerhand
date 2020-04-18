@@ -1,12 +1,11 @@
 <?php
-/**
- * @file
- * PlayingCardTest.php
- */
 
-use ColumbusPHP\PlayingCard\PlayingCard;
+namespace ColumbusPHP\Tests\PokerHand\PlayingCard\PlayingCardTest;
 
-class PlayingCardTest extends PHPUnit_Framework_TestCase {
+use ColumbusPHP\PokerHand\PlayingCard\PlayingCard;
+use PHPUnit\Framework\TestCase;
+
+class PlayingCardTest extends TestCase {
 
   /**
    * Test comparing two cards.

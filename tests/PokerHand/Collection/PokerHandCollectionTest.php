@@ -1,17 +1,16 @@
 <?php
-/**
- * @file
- * PokerHandCollectionTest.php
- */
+
+namespace ColumbusPHP\Tests\PokerHand\Collection;
 
 use ColumbusPHP\PokerHand\PokerHand;
 use ColumbusPHP\PokerHand\Collection\PokerHandCollection;
 use ColumbusPHP\PokerHand\Feed\PokerHandFeedDummy;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for PokerHandCollection.php
  */
-class PokerHandCollectionTest extends PHPUnit_Framework_TestCase {
+class PokerHandCollectionTest extends TestCase {
 
   /**
    * Test creating a set of poker hands from a feed. Use the dummy feed here
@@ -23,15 +22,6 @@ class PokerHandCollectionTest extends PHPUnit_Framework_TestCase {
     $this->assertInstanceOf('ColumbusPHP\PokerHand\Collection\PokerHandCollection', $hands);
 
     $this->assertCount(2, $hands->data, 'There are 2 hands.');
-  }
-
-  /**
-   * Test the setHand method.
-   */
-  public function testSetHand() {
-    $hands = PokerHandCollection::createFromFeed(new PokerHandFeedDummy);
-
-    $hands->setHand(new PokerHand);
   }
 
   /**

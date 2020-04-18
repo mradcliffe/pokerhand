@@ -1,6 +1,13 @@
+/.idea/
+/.vscode/
+/.vs/
+/nbproject/
+
 vendor
 coverage
 docs
 composer.lock
 composer.phar
 log.txt
+.DS_Store
+Thumbs.db

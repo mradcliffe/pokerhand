@@ -13,7 +13,8 @@ if-elseif-else, and I don't make life easy.
 
 1. `cd pokerhand`
 2. `composer install`
-3. `php run.php`
+3. `php run.php <url>`
+4. `php 10player.php` for a random, locally-created deck.
 
 ## API
 

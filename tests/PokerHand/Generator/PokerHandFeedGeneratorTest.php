@@ -1,15 +1,14 @@
 <?php
-/**
- * @file
- * PokerHandFeedGeneratorTest.php
- */
+
+namespace ColumbusPHP\Tests\PokerHand\Generator;
 
 use ColumbusPHP\PokerHand\Feed\PokerHandFeedGenerator;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test the poker hand generator feed.
  */
-class PokerHandFeedGeneratorTest extends PHPUnit_Framework_TestCase {
+class PokerHandFeedGeneratorTest extends TestCase {
 
   /**
    * Test that generator creates a deck of 52 cards.
